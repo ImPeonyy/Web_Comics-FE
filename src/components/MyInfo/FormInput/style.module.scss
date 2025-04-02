@@ -1,0 +1,29 @@
+@use '@styles/main.scss';
+@use '@styles/variable.module' as *;
+
+.infoItem {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 5px;
+    height: 130px;
+    line-height: 20px;
+}
+
+.infoItem > span {
+    color: $primaryColor;
+    font-size: 18px;
+}
+
+.infoItem > input {
+    border-left: 3px solid $mainTextColor;
+    border-radius: 0px;
+    background-color: $sub2BGC;
+    height: 30px;
+    color: $mainTextColor;
+    font-size: large;
+}
+
+.error {
+    color: $dangerColor;
+}

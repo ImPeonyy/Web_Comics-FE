@@ -1,0 +1,94 @@
+@use '@styles/main.scss';
+@use '@styles/variable.module' as *;
+
+.background {
+    position: fixed;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100vh;
+}
+
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+    box-shadow: 5px 20px 50px #000;
+    border-radius: 10px;
+    background-color: #ccc;
+    width: 470px;
+    height: 650px;
+    overflow: hidden;
+}
+
+.signIn {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.authForm {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+}
+
+label {
+    display: flex;
+    justify-content: center;
+    transition: 0.5s ease-in-out;
+    cursor: pointer;
+    color: #fff;
+    font-weight: bold;
+    font-size: 2.3em;
+}
+
+.signIn label {
+    margin: 40px;
+    margin-bottom: 60px;
+}
+
+.signUp label {
+    margin: 20px 40px;
+}
+
+.signUp {
+    transform: translateY(-20%);
+    transition: 0.8s ease-in-out;
+    border-radius: 80% / 5%;
+    background: #eee;
+    height: 660px;
+
+    label {
+        transform: scale(0.6);
+        color: $primaryColor;
+    }
+
+    button {
+        margin-top: 10px !important;
+    }
+}
+
+.chk {
+    display: none;
+
+    &:checked ~ .signUp {
+        transform: translateY(-550px);
+
+        label {
+            transform: scale(1);
+        }
+    }
+
+    &:checked ~ .signIn {
+        label {
+            transform: scale(0.6);
+        }
+    }
+}

@@ -1,0 +1,25 @@
+@use '@styles/main.scss';
+@use '@styles/variable.module' as *;
+
+.input {
+    width: 80%;
+}
+
+.error {
+    padding: 10px;
+    height: 20px;
+    color: $dangerColor;
+}
+
+input {
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    background: #e0dede;
+    padding: 10px;
+    width: 100%;
+    height: 50px;
+}

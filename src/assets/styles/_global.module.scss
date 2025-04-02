@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Pacifico&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap');
+
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+h3 {
+    margin: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.container {
+    margin: auto;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    width: 1440px;
+    height: 100%;
+
+    @media (max-width: 1440px) {
+        width: 100%;
+    }
+}

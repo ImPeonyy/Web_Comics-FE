@@ -1,0 +1,6 @@
+@use '@styles/main.scss';
+@use '@styles/variable.module' as *;
+
+.menuItem:hover {
+    color: $primaryColor;
+}

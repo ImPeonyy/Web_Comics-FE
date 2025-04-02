@@ -1,0 +1,34 @@
+@use '@styles/main.scss';
+@use '@styles/variable.module' as *;
+
+.comicContainer {
+    display: flex;
+}
+
+.comicCoverImage div img {
+    width: 56px;
+    height: 80px;
+    border-radius: 3px;
+}
+
+.comicInfo {
+    padding: 0px 10px;
+    font-size: small;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.comicInfo a {
+    color: $mainTextColor;
+    text-decoration: none;
+}
+
+.comicInfo a:hover {
+    color: $primaryColor;
+}
+
+.comicUpdateAt {
+    color: $subTextColor;
+    font-size: x-small;
+}

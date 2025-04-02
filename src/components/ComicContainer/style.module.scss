@@ -1,0 +1,24 @@
+@use '@styles/main.scss';
+@use '@styles/variable.module' as *;
+
+.comicContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 15px;
+
+    @media (max-width: 768px) {
+        gap: 15px;
+    }
+
+    @media (max-width: 480px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.comicItem {
+    border-radius: 5px;
+    background-color: #fff;
+    width: 200px;
+    height: 300px;
+}

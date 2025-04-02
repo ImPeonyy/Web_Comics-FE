@@ -1,0 +1,43 @@
+@use '@styles/main.scss';
+@use '@styles/variable.module' as *;
+
+.container {
+    min-height: 400px;
+}
+
+.listTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    width: 100%;
+}
+
+.listTitle span {
+    color: $mainTextColor;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.listTitle a {
+    color: $mainTextColor;
+}
+
+.listTitle ion-icon {
+    transform: scale(1.5);
+}
+
+.listComics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15%, 1fr));
+    gap: 2%;
+    height: 360px;
+
+    @media (max-width: 1024px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
+}

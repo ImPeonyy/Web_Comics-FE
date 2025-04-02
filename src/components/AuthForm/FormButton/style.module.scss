@@ -1,0 +1,24 @@
+@use '@styles/main.scss';
+@use '@styles/variable.module' as *;
+
+.button {
+    display: block;
+    justify-content: center;
+    transition: 0.2s ease-in;
+    cursor: pointer;
+    margin: 20px auto;
+    margin-top: 30px !important;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    background: rgba($color: $primaryColor, $alpha: 0.7);
+    width: 50%;
+    height: 50px;
+    color: #fff;
+    font-style: 1em;
+    font-weight: bold;
+
+    &:hover {
+        background: $primaryColor;
+    }
+}

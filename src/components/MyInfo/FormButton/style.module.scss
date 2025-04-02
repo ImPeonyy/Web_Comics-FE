@@ -1,0 +1,13 @@
+@use '@styles/main.scss';
+@use '@styles/variable.module' as *;
+
+.formButton {
+    align-self: end;
+    cursor: pointer;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: $primaryColor;
+    width: 30%;
+    height: 40px;
+}
