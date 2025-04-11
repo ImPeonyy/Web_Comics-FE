@@ -13,7 +13,7 @@ export const HomePage = () => {
                 <Header />
                 <RCMComics />
                 <PopularFeatures />
-                <MainContainer />
+                {/* <MainContainer /> */}
                 <Footer />
             </MainLayout>
         </HomePageProvider>

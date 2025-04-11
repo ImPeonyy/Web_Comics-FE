@@ -1,0 +1,26 @@
+@use '@styles/main.scss';
+@use '@styles/variable.module' as *;
+
+.ongoing {
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: $ongoingColor;
+    padding: 1px 5px;
+    font-weight: bold;
+}
+
+.completed {
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: $completedColor;
+    padding: 1px 5px;
+    font-weight: bold;
+}
+
+.genre {
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: $sub2BGC;
+    padding: 1px 5px;
+    font-weight: bold;
+}

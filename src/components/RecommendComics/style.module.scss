@@ -2,7 +2,16 @@
 @use '@styles/variable.module' as *;
 
 .carousel {
-    position: absolute;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
     height: 450px;
 }
 
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 450px;
+}

@@ -1,0 +1,275 @@
+@use '@styles/main.scss';
+@use '@styles/variable.module' as *;
+
+.loadingContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $mainBGC;
+    width: 100%;
+    height: 100vh;
+}
+
+.container {
+    margin-top: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 0 20px;
+    width: 100%;
+    max-width: 1200px;
+    min-height: 100vh;
+}
+
+.chapterHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: auto;
+    padding: 20px 0;
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    color: $mainTextColor;
+    font-size: 1.1rem;
+}
+
+.chapterTitle {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.actionButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    background-color: $primaryColor;
+    padding: 0 10px;
+    width: 33.333%;
+    min-width: 120px;
+    height: 40px;
+    color: $black;
+
+    &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        background-color: $hoverColor;
+        color: $mainTextColor;
+    }
+}
+
+.listChapter {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    border: 1px solid $primaryColor;
+    background-color: $subBGC;
+    padding: 0 10px;
+    width: 33.333%;
+    min-width: 120px;
+    height: 40px;
+
+    .chapterList {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        border: 1px solid $primaryColor;
+        border-radius: 5px;
+        background-color: $subBGC;
+        width: 100%;
+        max-height: 300px;
+        overflow-y: auto;
+
+        .chapterItem {
+            transition: background-color 0.3s;
+            cursor: pointer;
+            padding: 10px;
+
+            &:hover {
+                background-color: $hoverColor;
+            }
+
+            &.active {
+                background-color: $primaryColor;
+                color: $mainTextColor;
+            }
+        }
+    }
+}
+
+.backToComic {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.chapterImages {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid $subTextColor;
+    padding: 20px 0;
+
+    .imageContainer {
+        display: flex;
+        position: relative;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.05);
+        width: 100%;
+        max-width: 800px;
+        min-height: 200px;
+    }
+
+    .imageLoading {
+        display: flex;
+        position: absolute;
+        top: 0;
+        left: 0;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+    }
+
+    .image {
+        display: block;
+        transition: opacity 0.3s ease-in-out;
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+
+        &.loaded {
+            opacity: 1;
+        }
+    }
+}
+
+.chapterFooter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+
+    .actions {
+        width: 50%;
+    }
+}
+
+.backToTop {
+    display: flex;
+    position: fixed;
+    right: 30px;
+    bottom: 30px;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    background-color: $primaryColor;
+    width: 40px;
+    height: 40px;
+    color: $mainTextColor;
+
+    &:hover {
+        transform: translateY(-5px);
+        background-color: $hoverColor;
+    }
+}
+
+@media (max-width: 1024px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    .chapterHeader {
+        gap: 15px;
+    }
+
+    .actionButton,
+    .listChapter {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 10px;
+    }
+
+    .chapterHeader {
+        font-size: 1rem;
+    }
+
+    .actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .actionButton,
+    .listChapter {
+        width: 100%;
+    }
+
+    .chapterFooter {
+        .actions {
+            width: 60%;
+        }
+    }
+
+    .backToTop {
+        right: 20px;
+        bottom: 20px;
+        width: 35px;
+        height: 35px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 5px;
+    }
+
+    .chapterHeader {
+        gap: 10px;
+        font-size: 0.9rem;
+    }
+
+    .actionButton {
+        height: 35px;
+        font-size: 0.9rem;
+    }
+
+    .chapterFooter {
+        .actions {
+            flex-direction: row;
+            width: 90%;
+        }
+    }
+}

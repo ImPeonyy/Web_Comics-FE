@@ -1,129 +1,22 @@
 import Comic from '@components/Comic/Comic';
 import style from './style.module.scss';
 
-const ComicContainer = () => {
+const ComicContainer = ({ comics }) => {
     return (
         <div className={style.comicContainer}>
-            <div className={style.comicItem}>
-                <Comic
-                    titleStyle={{
-                        fontSize: 'smaller'
-                    }}
-                    chapterStyle={{
-                        fontSize: '10px'
-                    }}
-                />
-            </div>
-            <div className={style.comicItem}>
-                <Comic
-                    titleStyle={{
-                        fontSize: 'smaller'
-                    }}
-                    chapterStyle={{
-                        fontSize: '10px'
-                    }}
-                />
-            </div>
-            <div className={style.comicItem}>
-                <Comic
-                    titleStyle={{
-                        fontSize: 'smaller'
-                    }}
-                    chapterStyle={{
-                        fontSize: '10px'
-                    }}
-                />
-            </div>
-            <div className={style.comicItem}>
-                <Comic
-                    titleStyle={{
-                        fontSize: 'smaller'
-                    }}
-                    chapterStyle={{
-                        fontSize: '10px'
-                    }}
-                />
-            </div>
-            <div className={style.comicItem}>
-                <Comic
-                    titleStyle={{
-                        fontSize: 'smaller'
-                    }}
-                    chapterStyle={{
-                        fontSize: '10px'
-                    }}
-                />
-            </div>
-            <div className={style.comicItem}>
-                <Comic
-                    titleStyle={{
-                        fontSize: 'smaller'
-                    }}
-                    chapterStyle={{
-                        fontSize: '10px'
-                    }}
-                />
-            </div>
-            <div className={style.comicItem}>
-                <Comic
-                    titleStyle={{
-                        fontSize: 'smaller'
-                    }}
-                    chapterStyle={{
-                        fontSize: '10px'
-                    }}
-                />
-            </div>
-            <div className={style.comicItem}>
-                <Comic
-                    titleStyle={{
-                        fontSize: 'smaller'
-                    }}
-                    chapterStyle={{
-                        fontSize: '10px'
-                    }}
-                />
-            </div>
-            <div className={style.comicItem}>
-                <Comic
-                    titleStyle={{
-                        fontSize: 'smaller'
-                    }}
-                    chapterStyle={{
-                        fontSize: '10px'
-                    }}
-                />
-            </div>
-            <div className={style.comicItem}>
-                <Comic
-                    titleStyle={{
-                        fontSize: 'smaller'
-                    }}
-                    chapterStyle={{
-                        fontSize: '10px'
-                    }}
-                />
-            </div>
-            <div className={style.comicItem}>
-                <Comic
-                    titleStyle={{
-                        fontSize: 'smaller'
-                    }}
-                    chapterStyle={{
-                        fontSize: '10px'
-                    }}
-                />
-            </div>
-            <div className={style.comicItem}>
-                <Comic
-                    titleStyle={{
-                        fontSize: 'smaller'
-                    }}
-                    chapterStyle={{
-                        fontSize: '10px'
-                    }}
-                />
-            </div>
+            {comics.map((comic) => (
+                <div className={style.comicItem} key={comic.id}>
+                    <Comic
+                        comic={comic}
+                        titleStyle={{
+                            fontSize: 'smaller'
+                        }}
+                        chapterStyle={{
+                            fontSize: '10px'
+                        }}
+                    />
+                </div>
+            ))}
         </div>
     );
 };

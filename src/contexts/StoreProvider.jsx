@@ -14,7 +14,7 @@ export const StoreProvider = ({ children }) => {
     const userID = Cookies.get('userID');
     const { toast } = useContext(ToastContext);
 
-    useEffect(() => {
+    const fetchMyInfo = () => {
         if (userID) {
             getMyInfo(userID)
                 .then((res) => {
@@ -24,6 +24,10 @@ export const StoreProvider = ({ children }) => {
                     toast.error(err.response.data.message);
                 });
         }
+    };
+
+    useEffect(() => {
+        fetchMyInfo();
         getGenres()
             .then((res) => {
                 setGenres(res.data.data);
@@ -34,7 +38,7 @@ export const StoreProvider = ({ children }) => {
     }, [userID]);
 
     return (
-        <StoreContext.Provider value={{ myInfo, genres }}>
+        <StoreContext.Provider value={{ myInfo, genres, fetchMyInfo }}>
             {children}
         </StoreContext.Provider>
     );

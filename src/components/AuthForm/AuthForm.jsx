@@ -13,10 +13,10 @@ import { useFormik } from 'formik';
 
 const AuthForm = () => {
     const { toast } = useContext(ToastContext);
-    const { isOpen, setIsOpen } = useContext(AuthFormContext);
+    const { isAuthFormOpen, setIsAuthFormOpen } = useContext(AuthFormContext);
 
     const handleOverlayClick = () => {
-        setIsOpen(false);
+        setIsAuthFormOpen(false);
     };
 
     const handleContentClick = (e) => {
@@ -45,7 +45,7 @@ const AuthForm = () => {
                     const { token, id } = res.data;
                     Cookies.set('token', token);
                     Cookies.set('userID', id);
-                    setIsOpen(false);
+                    setIsAuthFormOpen(false);
                 })
                 .catch((err) => {
                     toast.error('Sai tài khoản hoặc mật khẩu!');
@@ -92,7 +92,7 @@ const AuthForm = () => {
 
     return (
         <>
-            {isOpen && (
+            {isAuthFormOpen && (
                 <div className={style.background} onClick={handleOverlayClick}>
                     <div className={style.modal} onClick={handleContentClick}>
                         <input

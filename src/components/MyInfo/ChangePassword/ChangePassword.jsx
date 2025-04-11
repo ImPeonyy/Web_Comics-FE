@@ -2,6 +2,7 @@ import * as Yup from 'yup';
 
 import { useContext, useState } from 'react';
 
+import CustomLoading from '@components/Loading/CustomLoading/CustomLoading';
 import FormButton from '@components/MyInfo/FormButton/FormButton';
 import FormInput from '@components/MyInfo/FormInput/FormInput';
 import { ToastContext } from '@contexts/ToastProvider';
@@ -12,6 +13,7 @@ import { useFormik } from 'formik';
 const ChangePassword = () => {
     const { toast } = useContext(ToastContext);
     const [isEditingPassword, setIsEditingPassword] = useState(false);
+    const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
 
     const formik = useFormik({
         initialValues: {
@@ -33,15 +35,18 @@ const ChangePassword = () => {
         }),
 
         onSubmit: (values) => {
+            setIsUpdatingPassword(true);
             changePassword(values)
                 .then(() => {
                     toast.success('Đổi mật khẩu thành công!');
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 3000);
+                    setIsEditingPassword(false);
+                    formik.resetForm();
                 })
                 .catch((err) => {
                     toast.error(err.response.data.message);
+                })
+                .finally(() => {
+                    setIsUpdatingPassword(false);
                 });
         }
     });
@@ -54,58 +59,66 @@ const ChangePassword = () => {
 
     return (
         <form onSubmit={formik.handleSubmit} className={style.passwordForm}>
-            <FormInput
-                type='password'
-                name='oldPassword'
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values.oldPassword}
-                autoComplete='off'
-                disabled={!isEditingPassword}
-                title={'Mật khẩu cũ'}
-                formik={formik}
-            />
-
-            <FormInput
-                type='password'
-                name='newPassword'
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values.newPassword}
-                autoComplete='off'
-                disabled={!isEditingPassword}
-                title={'Mật khẩu mới'}
-                formik={formik}
-            />
-
-            <FormInput
-                type='password'
-                name='confirmPassword'
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values.confirmPassword}
-                autoComplete='off'
-                disabled={!isEditingPassword}
-                title={'Xác nhận mật khẩu'}
-                formik={formik}
-            />
-            {isEditingPassword ? (
+            {isUpdatingPassword ? (
+                <div className={style.loadingPassword}>
+                    <CustomLoading text='Đang cập nhật mật khẩu...' />
+                </div>
+            ) : (
                 <>
-                    <div className={style.action}>
+                    <FormInput
+                        type='password'
+                        name='oldPassword'
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        value={formik.values.oldPassword}
+                        autoComplete='off'
+                        disabled={!isEditingPassword}
+                        title={'Mật khẩu cũ'}
+                        formik={formik}
+                    />
+
+                    <FormInput
+                        type='password'
+                        name='newPassword'
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        value={formik.values.newPassword}
+                        autoComplete='off'
+                        disabled={!isEditingPassword}
+                        title={'Mật khẩu mới'}
+                        formik={formik}
+                    />
+
+                    <FormInput
+                        type='password'
+                        name='confirmPassword'
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        value={formik.values.confirmPassword}
+                        autoComplete='off'
+                        disabled={!isEditingPassword}
+                        title={'Xác nhận mật khẩu'}
+                        formik={formik}
+                    />
+                    {isEditingPassword ? (
+                        <>
+                            <div className={style.action}>
+                                <FormButton
+                                    type='button'
+                                    onClick={handleEditablePassword}
+                                    title={'Hủy'}
+                                />
+                                <FormButton type='submit' title={'Cập nhật'} />
+                            </div>
+                        </>
+                    ) : (
                         <FormButton
                             type='button'
                             onClick={handleEditablePassword}
-                            title={'Hủy'}
+                            title={'Chỉnh sửa'}
                         />
-                        <FormButton type='submit' title={'Cập nhật'} />
-                    </div>
+                    )}
                 </>
-            ) : (
-                <FormButton
-                    type='button'
-                    onClick={handleEditablePassword}
-                    title={'Chỉnh sửa'}
-                />
             )}
         </form>
     );

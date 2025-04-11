@@ -12,12 +12,14 @@
 
 .comicBG {
     position: absolute;
+    width: 100%;
 }
 
-.comicBG img {
+.comicBG > img {
     border-radius: 5px;
     width: 100%;
     height: 75%;
+    object-fit: cover;
     color: transparent;
 }
 
@@ -35,14 +37,13 @@
     height: 30%;
 }
 
-.comicInfo h3 {
+.comicInfo > h3 {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     margin-top: 10px;
     -webkit-line-clamp: 1;
     overflow: hidden;
     color: $mainTextColor;
-    line-height: 1.5;
     text-align: center;
     text-overflow: ellipsis;
 }

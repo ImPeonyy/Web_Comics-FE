@@ -1,4 +1,4 @@
-import { lazy } from 'react'
+import { lazy } from 'react';
 
 const publicRouters = [
     {
@@ -16,7 +16,23 @@ const publicRouters = [
     {
         path: '/favorite',
         component: lazy(() => import('@pages/FavoritePage'))
+    },
+    {
+        path: '/read-comic/:comicSlug/:chapterSlug',
+        component: lazy(() => import('@pages/ReadComicPage'))
+    },
+    {
+        path: '/genre/:genreSlug',
+        component: lazy(() => import('@pages/ComicsGenrePage'))
+    },
+    {
+        path: '/genre/:genreSlug?page=:page',
+        component: lazy(() => import('@pages/ComicsGenrePage'))
+    },
+    {
+        path: '/filter-comics',
+        component: lazy(() => import('@pages/FilterComicsPage'))
     }
 ];
 
-export {publicRouters}
+export { publicRouters };

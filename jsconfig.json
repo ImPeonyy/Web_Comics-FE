@@ -8,7 +8,8 @@
             "@styles/*": ["src/assets/styles/*"],
             "@images/*": ["src/assets/images/*"],
             "@services/*": ["src/services/*"],
-            "@contexts/*": ["src/contexts/*"]
+            "@contexts/*": ["src/contexts/*"],
+            "@utils/*": ["src/utils/*"]
         }
     },
     "include": ["src/**/*"]

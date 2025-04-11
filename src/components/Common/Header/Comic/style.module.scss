@@ -1,0 +1,68 @@
+@use '@styles/main.scss';
+@use '@styles/variable.module' as *;
+
+.comicContainer {
+    display: flex;
+    gap: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #292929;
+    padding: 10px;
+    width: 100%;
+    min-height: 100px;
+
+    &:hover {
+        background-color: $hoverColor;
+    }
+}
+
+.comicImage {
+    border-radius: 5px;
+    width: 60px;
+    overflow: hidden;
+}
+
+.comicImage > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.comicTitle {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    color: $mainTextColor;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-weight: 500;
+    font-size: 1.2rem;
+    text-overflow: ellipsis;
+}
+
+.comicInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.infoItem > span {
+    padding: 10px 3px !important;
+}
+
+.infoItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.view,
+.published {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $mainTextColor;
+}
+
+.genresList {
+    display: flex;
+}

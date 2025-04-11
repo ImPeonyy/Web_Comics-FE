@@ -3,10 +3,11 @@ import * as Yup from 'yup';
 import { updateInfo, uploadAvatar } from '@services/UserService';
 import { useContext, useState } from 'react';
 
+import CustomLoading from '@components/Loading/CustomLoading/CustomLoading';
 import FormButton from '@components/MyInfo/FormButton/FormButton';
 import FormInput from '@components/MyInfo/FormInput/FormInput';
 import { LevelsContext } from '@contexts/LevelsProvider';
-import Loading from '@components/Loading/Loading';
+import LoadingComponent from '@components/Loading/LoadingComponent/LoadingComponent';
 import { StoreContext } from '@contexts/StoreProvider';
 import { ToastContext } from '@contexts/ToastProvider';
 import style from './style.module.scss';
@@ -14,8 +15,10 @@ import { useFormik } from 'formik';
 
 const Info = () => {
     const { toast } = useContext(ToastContext);
-    const { myInfo } = useContext(StoreContext);
+    const { myInfo, fetchMyInfo } = useContext(StoreContext);
     const [isEditingInfo, setIsEditingInfo] = useState(false);
+    const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
+    const [isUpdatingInfo, setIsUpdatingInfo] = useState(false);
     const { currentLevel, nextLevel, expPercentage } =
         useContext(LevelsContext);
 
@@ -35,12 +38,12 @@ const Info = () => {
         }),
 
         onSubmit: (values) => {
+            setIsUpdatingInfo(true);
             updateInfo(values)
                 .then(() => {
                     toast.success('Cập nhật thông tin thành công!');
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 3000);
+                    setIsEditingInfo(false);
+                    fetchMyInfo();
                 })
                 .catch((err) => {
                     if (Array.isArray(err.response.data.messages)) {
@@ -50,6 +53,9 @@ const Info = () => {
                     } else {
                         toast.error(err.response.data.message);
                     }
+                })
+                .finally(() => {
+                    setIsUpdatingInfo(false);
                 });
         }
     });
@@ -90,12 +96,11 @@ const Info = () => {
     const handleUploadAvatar = (e) => {
         const file = e.target.files[0];
         if (file) {
+            setIsUploadingAvatar(true);
             uploadAvatar(file)
                 .then(() => {
+                    fetchMyInfo();
                     toast.success('Avatar đã được cập nhật!');
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 3000);
                 })
                 .catch((err) => {
                     const status = err.response.status;
@@ -105,6 +110,9 @@ const Info = () => {
                     if (status === 413) {
                         toast.error('Kích thước ảnh tối đa 2MB!');
                     }
+                })
+                .finally(() => {
+                    setIsUploadingAvatar(false);
                 });
         } else {
             toast.error('Vui lòng chọn ảnh!');
@@ -114,7 +122,7 @@ const Info = () => {
     if (!myInfo || (myInfo.username === null && myInfo.email === null)) {
         return (
             <div className={style.loading}>
-                <Loading size='large' />
+                <LoadingComponent />
             </div>
         );
     }
@@ -124,7 +132,13 @@ const Info = () => {
             <div style={{ display: 'flex', gap: '20px', flexDirection: 'row' }}>
                 <div className={style.avatarContainer}>
                     <div className={style.avatar}>
-                        <img src={myInfo.avatar} />
+                        {isUploadingAvatar ? (
+                            <div className={style.loadingAvatar}>
+                                <CustomLoading text='Đang tải ảnh...' />
+                            </div>
+                        ) : (
+                            <img src={myInfo.avatar} />
+                        )}
                         <input
                             type='file'
                             name='avatar'
@@ -142,49 +156,57 @@ const Info = () => {
                             onSubmit={formik.handleSubmit}
                             className={style.infoForm}
                         >
-                            <FormInput
-                                type='text'
-                                name='username'
-                                onBlur={formik.handleBlur}
-                                onChange={formik.handleChange}
-                                value={formik.values.email}
-                                autoComplete='off'
-                                disabled={!isEditingInfo}
-                                title={'Tên người dùng'}
-                                formik={formik}
-                            />
-
-                            <FormInput
-                                type='text'
-                                name='email'
-                                onBlur={formik.handleBlur}
-                                onChange={formik.handleChange}
-                                value={formik.values.email}
-                                autoComplete='off'
-                                disabled={!isEditingInfo}
-                                title={'Email'}
-                                formik={formik}
-                            />
-                            {isEditingInfo ? (
+                            {isUpdatingInfo ? (
+                                <div className={style.loadingInfo}>
+                                    <CustomLoading text='Đang cập nhật thông tin...' />
+                                </div>
+                            ) : (
                                 <>
-                                    <div className={style.action}>
+                                    <FormInput
+                                        type='text'
+                                        name='username'
+                                        onBlur={formik.handleBlur}
+                                        onChange={formik.handleChange}
+                                        value={formik.values.username}
+                                        autoComplete='off'
+                                        disabled={!isEditingInfo}
+                                        title={'Tên người dùng'}
+                                        formik={formik}
+                                    />
+
+                                    <FormInput
+                                        type='text'
+                                        name='email'
+                                        onBlur={formik.handleBlur}
+                                        onChange={formik.handleChange}
+                                        value={formik.values.email}
+                                        autoComplete='off'
+                                        disabled={!isEditingInfo}
+                                        title={'Email'}
+                                        formik={formik}
+                                    />
+                                    {isEditingInfo ? (
+                                        <>
+                                            <div className={style.action}>
+                                                <FormButton
+                                                    type='button'
+                                                    onClick={handleEditableInfo}
+                                                    title={'Hủy'}
+                                                />
+                                                <FormButton
+                                                    type='submit'
+                                                    title={'Cập nhật'}
+                                                />
+                                            </div>
+                                        </>
+                                    ) : (
                                         <FormButton
                                             type='button'
                                             onClick={handleEditableInfo}
-                                            title={'Hủy'}
+                                            title={'Chỉnh sửa'}
                                         />
-                                        <FormButton
-                                            type='submit'
-                                            title={'Cập nhật'}
-                                        />
-                                    </div>
+                                    )}
                                 </>
-                            ) : (
-                                <FormButton
-                                    type='button'
-                                    onClick={handleEditableInfo}
-                                    title={'Chỉnh sửa'}
-                                />
                             )}
                         </form>
                     </div>

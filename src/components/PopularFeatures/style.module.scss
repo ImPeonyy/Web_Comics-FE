@@ -27,6 +27,14 @@
     background-color: $subBGC;
     min-height: 669px;
     color: $mainTextColor;
+
+    @media (max-width: 1024px) {
+        min-height: 600px;
+    }
+
+    @media (max-width: 768px) {
+        min-height: 500px;
+    }
 }
 
 .featureTitle span {
@@ -36,6 +44,11 @@
     padding: 15px;
     font-weight: bold;
     font-size: x-large;
+
+    @media (max-width: 768px) {
+        padding: 10px;
+        font-size: large;
+    }
 }
 
 .featureTitle ion-icon {
@@ -44,6 +57,11 @@
     right: 0;
     transform: scale(1.5);
     padding: 15px;
+
+    @media (max-width: 768px) {
+        transform: scale(1.2);
+        padding: 10px;
+    }
 }
 
 .comics {
@@ -51,8 +69,16 @@
     flex-direction: column;
     gap: 20px;
     padding: 27px 10px 10px 10px;
+
     @media (max-width: 768px) {
+        gap: 15px;
         background-color: $mainBGC;
+        padding: 20px 10px 10px 10px;
+    }
+
+    @media (max-width: 480px) {
+        gap: 10px;
+        padding: 15px 8px 8px 8px;
     }
 }
 
@@ -60,6 +86,10 @@
     .ant-tabs-nav-list {
         padding-top: 10px;
         width: 100%;
+
+        @media (max-width: 768px) {
+            padding-top: 5px;
+        }
     }
 
     .ant-tabs-card > .ant-tabs-nav .ant-tabs-tab {
@@ -72,6 +102,16 @@
         color: $mainTextColor;
         font-weight: bold;
         font-size: larger;
+
+        @media (max-width: 768px) {
+            height: 40px;
+            font-size: medium;
+        }
+
+        @media (max-width: 480px) {
+            height: 35px;
+            font-size: small;
+        }
     }
 
     .ant-tabs-card > .ant-tabs-nav .ant-tabs-tab:hover {
@@ -82,5 +122,25 @@
         border-top: 3px solid $primaryColor;
         background-color: transparent !important;
         color: $primaryColor !important;
+    }
+
+    // Ẩn các tab không cần thiết trên mobile
+    @media (max-width: 480px) {
+        .ant-tabs-tab:nth-child(n + 4) {
+            display: none;
+        }
+    }
+}
+
+// Ẩn các phần yêu thích và lịch sử trên mobile
+@media (max-width: 768px) {
+    .container > div:not(:first-child) {
+        display: none;
+    }
+}
+
+@media (max-width: 1024px) {
+    .container > div:nth-child(3) {
+        display: none;
     }
 }

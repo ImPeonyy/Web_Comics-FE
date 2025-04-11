@@ -39,3 +39,46 @@
         display: none;
     }
 }
+
+// Responsive styles
+@media screen and (max-width: 1200px) {
+    .content {
+        padding: 15px 25px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .history {
+        margin-top: 80px;
+    }
+
+    .titleText > span {
+        font-size: x-large;
+    }
+
+    .titleIcon {
+        transform: scale(1.5);
+    }
+
+    .content {
+        padding: 10px 15px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .history {
+        margin-top: 60px;
+    }
+
+    .titleText > span {
+        font-size: large;
+    }
+
+    .titleIcon {
+        transform: scale(1.2);
+    }
+
+    .content {
+        padding: 8px 12px;
+    }
+}
