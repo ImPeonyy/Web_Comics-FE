@@ -2,11 +2,20 @@ import { Carousel, ConfigProvider } from 'antd';
 
 import Comic from '@components/RecommendComics/Comic/Comic';
 import { HomePageContext } from '@contexts/HomePageProvider';
+import LoadingComponent from '@components/Loading/LoadingComponent/LoadingComponent';
 import style from './style.module.scss';
 import { useContext } from 'react';
 
 const RCMComics = () => {
     const { recommendComics } = useContext(HomePageContext);
+
+    if (recommendComics.length === 0) {
+        return (
+            <div className={style.loading}>
+                <LoadingComponent />
+            </div>
+        );
+    }
 
     return (
         <ConfigProvider
@@ -29,13 +38,9 @@ const RCMComics = () => {
                 draggable={true}
                 className={style.carousel}
             >
-                {recommendComics.length === 0 ? (
-                    <div>Chưa có dữ liệu truyện đề xuất</div> 
-                ) : (
-                    recommendComics.map((item, index) => (
-                        <Comic key={index} comic={item}/>
-                    ))
-                )}
+                {recommendComics.map((item, index) => (
+                    <Comic key={index} comic={item} />
+                ))}
             </Carousel>
         </ConfigProvider>
     );

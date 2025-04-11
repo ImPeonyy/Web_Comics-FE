@@ -6,14 +6,27 @@
     position: relative;
     cursor: pointer;
     height: 450px;
+
+    @media (max-width: 1200px) {
+        height: 400px;
+    }
+
+    @media (max-width: 768px) {
+        height: 350px;
+    }
+
+    @media (max-width: 480px) {
+        height: 450px;
+    }
 }
 
 .background {
     position: absolute;
-    filter: blur(4px);
+    filter: blur(10px);
     inset: 0;
     background-position: center;
     background-repeat: no-repeat;
+    padding: 0px 15px;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -40,6 +53,20 @@
     position: relative;
     z-index: 3;
     padding-top: 100px;
+
+    @media (max-width: 1200px) {
+        padding-top: 80px;
+    }
+
+    @media (max-width: 768px) {
+        padding-top: 60px;
+    }
+
+    @media (max-width: 480px) {
+        flex-direction: column;
+        align-items: center;
+        padding-top: 40px;
+    }
 }
 
 .itemCoverImage img {
@@ -47,14 +74,35 @@
     width: 250px;
     height: 320px;
     object-fit: cover;
+
+    @media (max-width: 1200px) {
+        width: 200px;
+        height: 280px;
+    }
+
+    @media (max-width: 768px) {
+        width: 180px;
+        height: 240px;
+    }
+
+    @media (max-width: 480px) {
+        margin-top: 15px;
+        width: 150px;
+        height: 200px;
+    }
 }
 
 .comicInfo {
     position: relative;
     margin: 10px 30px 0px 30px !important;
+
+    @media (max-width: 480px) {
+        margin: 20px 15px 0px 15px !important;
+        text-align: center;
+    }
 }
 
-h1 {
+.comicInfo > h1 {
     display: -webkit-box;
     margin: 0 !important;
     -webkit-line-clamp: 2;
@@ -67,30 +115,33 @@ h1 {
     overflow: hidden;
     text-overflow: ellipsis;
 
-    @media (max-width: 1024px) {
-        font-size: 10px;
+    @media (max-width: 1200px) {
+        min-width: 600px;
+        font-size: 2.5rem !important;
+    }
+
+    @media (max-width: 768px) {
+        min-width: 500px;
+        font-size: 2rem !important;
+    }
+
+    @media (max-width: 480px) {
+        width: 100%;
+        min-width: auto;
+        font-size: 1.5rem !important;
     }
 }
 
-.genre {
+.genresList {
     display: flex;
     gap: 5px;
     margin: 15px 0px;
     color: $mainTextColor;
-}
 
-.status {
-    cursor: pointer;
-    border-radius: 5px;
-    background-color: $ongoingColor;
-    padding: 1px 3px;
-}
-
-.genresList {
-    cursor: pointer;
-    border-radius: 5px;
-    background-color: $sub2BGC;
-    padding: 1px 3px;
+    @media (max-width: 480px) {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 }
 
 .desciption {
@@ -101,6 +152,21 @@ h1 {
     overflow: hidden;
     font-size: large;
     text-overflow: ellipsis;
+
+    @media (max-width: 1200px) {
+        -webkit-line-clamp: 3;
+        font-size: medium;
+    }
+
+    @media (max-width: 768px) {
+        -webkit-line-clamp: 2;
+        font-size: small;
+    }
+
+    @media (max-width: 480px) {
+        -webkit-line-clamp: 2;
+        font-size: x-small;
+    }
 }
 
 .actions {
@@ -109,6 +175,17 @@ h1 {
     bottom: 50px;
     flex-direction: row;
     color: $primaryColor;
+
+    @media (max-width: 768px) {
+        bottom: 30px;
+    }
+
+    @media (max-width: 480px) {
+        position: relative;
+        bottom: auto;
+        justify-content: center;
+        margin-top: 15px;
+    }
 }
 
 .actions div {
@@ -118,10 +195,15 @@ h1 {
     margin-right: 20px;
 }
 
-.actions ion-icon {
-    font-size: 30px;
-}
-
+.actionView,
 .actionHeart {
-    cursor: pointer;
+    font-size: large;
+
+    @media (max-width: 768px) {
+        font-size: medium;
+    }
+
+    @media (max-width: 480px) {
+        font-size: small;
+    }
 }

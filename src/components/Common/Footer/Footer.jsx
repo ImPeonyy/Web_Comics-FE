@@ -10,7 +10,7 @@ const Footer = () => {
                         <img src={Logo} alt='Trang Chủ' />
                     </div>
                     <div className={style.footerDes}>
-                        <a href='#'>Peonyy~ Comics</a> - Đọc truyện online, đọc
+                        <a href='/'>Peonyy~ Comics</a> - Đọc truyện online, đọc
                         truyện chữ, truyện tranh. Website luôn cập nhật những bộ
                         truyện mới nhất thuộc các thể loại đặc sắc như tiên
                         hiệp, truyện kiếm hiếp, hay truyện ngôn tình một cách
@@ -19,7 +19,12 @@ const Footer = () => {
                     </div>
                     <div className={style.footerAboutMe}>
                         <h4>About me</h4>
-                        <div>Copyright © 2025 Peonyy~ Comics</div>
+                        <div>
+                            Copyright © 2025{' '}
+                            <span style={{ color: '#f3aab5' }}>
+                                Peonyy~ Comics
+                            </span>
+                        </div>
                     </div>
                 </section>
             </div>

@@ -1,0 +1,40 @@
+/* From Uiverse.io by Satwinder04 */
+.loader {
+    /* background-color: blue; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader-text {
+    align-self: center;
+    margin-bottom: 0px;
+    color: #f3aab5;
+    font-size: 24px;
+    line-height: 50px;
+}
+
+.loader-bar {
+    animation: loader-bar-animation 2s ease-in-out infinite;
+    border-radius: 5px;
+    background-color: #f3aab5;
+    width: 40%;
+}
+
+@keyframes loader-bar-animation {
+    0% {
+        /* transform: translateX(-100%) rotate(270deg); */
+        transform: translateX(-100%);
+    }
+
+    50% {
+        /* transform: translateX(100%) rotate(-90deg); */
+        transform: translateX(100%);
+    }
+
+    100% {
+        /* transform: translateX(-100%) rotate(270deg); */
+        transform: translateX(-100%);
+    }
+}

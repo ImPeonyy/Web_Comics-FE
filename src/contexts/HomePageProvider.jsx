@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 
+import { calcView } from '@utils/commonUtils';
 import { getAllComic } from '@services/ComicService';
 
 export const HomePageContext = createContext();
@@ -11,7 +12,14 @@ export const HomePageProvider = ({ children }) => {
     useEffect(() => {
         getAllComic()
             .then((res) => {
-                setRecommendComics(res.data.data);
+                const data = res.data.data;
+                data.forEach((item) => {
+                    item.view = calcView(item.statistics);
+
+                    item.isFavorite =
+                        item.favorites && item.favorites.length > 0;
+                });
+                setRecommendComics(data);
             })
             .catch((err) => {
                 console.log('API error:', err);
@@ -21,7 +29,7 @@ export const HomePageProvider = ({ children }) => {
     const values = { recommendComics, popularComics };
 
     return (
-        <HomePageContext.Provider value={ values }>
+        <HomePageContext.Provider value={values}>
             {children}
         </HomePageContext.Provider>
     );

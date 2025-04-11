@@ -3,22 +3,46 @@
 
 .comicContainer {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(6, 1fr);
     gap: 20px;
-    padding: 15px;
+    margin: 0 auto;
+    padding: 20px;
+    width: 100%;
+
+    @media (max-width: 1200px) {
+        grid-template-columns: repeat(5, 1fr);
+    }
+
+    @media (max-width: 992px) {
+        grid-template-columns: repeat(4, 1fr);
+    }
 
     @media (max-width: 768px) {
+        grid-template-columns: repeat(3, 1fr);
         gap: 15px;
+        padding: 15px;
+    }
+
+    @media (max-width: 576px) {
+        grid-template-columns: repeat(2, 1fr);
     }
 
     @media (max-width: 480px) {
-        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 10px;
     }
 }
 
 .comicItem {
-    border-radius: 5px;
-    background-color: #fff;
-    width: 200px;
-    height: 300px;
+    position: relative;
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    aspect-ratio: 2/3;
+    width: 100%;
+    overflow: hidden;
+
+    &:hover {
+        transform: translateY(-5px);
+    }
 }

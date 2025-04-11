@@ -8,7 +8,6 @@
     background-color: $secondaryBGC;
     padding: 10px 0;
     width: 100%;
-
 }
 
 .footerInfo {
@@ -24,4 +23,11 @@
 
 .footerDes {
     font-size: small;
+}
+
+.footerDes a {
+    color: $primaryColor;
+    font-weight: 500;
+    font-size: 1rem;
+    text-decoration: none;
 }

@@ -1,0 +1,40 @@
+@use '@styles/main.scss';
+@use '@styles/variable.module' as *;
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    margin-top: 20px;
+    padding: 10px 0;
+
+    .pageItem {
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border-radius: 2px;
+        background-color: $subBGC;
+        padding: 8px 12px;
+        color: $white;
+        font-weight: 500;
+        font-size: 18px;
+
+        &:hover:not(.disabled) {
+            background-color: $hoverColor;
+        }
+
+        &.active {
+            cursor: default;
+            background-color: $primaryColor;
+            color: $black;
+
+            &:hover {
+                background-color: $primaryColor;
+            }
+        }
+
+        &.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+}

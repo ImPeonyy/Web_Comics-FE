@@ -9,11 +9,14 @@
     top: 0;
     left: 0;
     z-index: 50;
-    z-index: 50;
     transition: background-color 0.3s ease;
     background-color: transparent;
     width: 100%;
     height: 56px;
+}
+
+.header.readComic {
+    position: relative;
 }
 
 .header.scrolled {
@@ -21,19 +24,52 @@
     background-color: $mainBGC;
 }
 
-.headerLogo img {
-    cursor: pointer;
-    width: 150px;
-    height: 48px;
-    object-fit: contain;
+.container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 20px;
+    height: 100%;
+
+    @media (max-width: 768px) {
+        justify-content: space-between;
+        padding: 0 10px;
+    }
+}
+
+.headerLogo {
+    @media (max-width: 768px) {
+        width: 120px;
+    }
+
+    img {
+        cursor: pointer;
+        width: 150px;
+        height: 48px;
+        object-fit: contain;
+
+        @media (max-width: 768px) {
+            width: 120px;
+            height: 40px;
+        }
+    }
+}
+
+.headerFilterContainer {
+    display: flex;
+    position: relative;
+    align-items: center;
+    z-index: 50;
 }
 
 .headerFilter {
     display: flex;
+    position: relative;
     align-items: center;
     gap: 10px;
+    opacity: 0.5;
     z-index: 50;
-    background-color: #fff;
+    border-radius: 4px;
     background-color: $subBGC;
     padding: 0 10px;
     width: 650px;
@@ -41,21 +77,88 @@
     color: $white;
 
     @media (max-width: 1280px) {
-        margin-right: 10px;
+        width: 450px;
+    }
+
+    @media (max-width: 1024px) {
+        width: 350px;
+    }
+
+    @media (max-width: 768px) {
+        display: none;
+    }
+
+    &:focus-within {
+        border: 1px solid $primaryColor;
+        background-color: $mainBGC;
     }
 }
 
 .headerFilter > label {
     font-size: large;
+
+    @media (max-width: 768px) {
+        font-size: medium;
+    }
 }
 
-.headerFilter input {
+.headerFilter > input {
     outline: none;
     border: none;
-    background-color: $subBGC;
+    background-color: transparent;
     width: 100%;
     height: 100%;
     color: $mainTextColor;
+
+    &:focus {
+        .headerFilter {
+            border: 1px solid $primaryColor;
+        }
+    }
+
+    &::placeholder {
+        color: #828488;
+    }
+}
+
+.backgroundSearch {
+    position: fixed;
+    z-index: 40;
+    transition: all 1s ease;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+
+    @media (max-width: 768px) {
+        display: block;
+    }
+}
+
+.searchComicsContainer {
+    transition: all 1s ease;
+}
+
+.comicsList {
+    display: flex;
+    position: absolute;
+    top: 37px;
+    left: 0;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 50;
+    border-radius: 4px;
+    background-color: #1f2020;
+    padding: 18px 10px;
+    width: 100%;
+    max-height: 500px;
+    overflow-y: auto;
+    color: $white;
+
+    span {
+        display: block;
+        padding: 10px;
+        color: $mainTextColor;
+        text-align: center;
+    }
 }
 
 .filterIcon {
@@ -67,6 +170,11 @@
     border-radius: 3px;
     width: 35px;
     height: 25px;
+
+    @media (max-width: 768px) {
+        width: 30px;
+        height: 22px;
+    }
 }
 
 .filterIcon:hover {
@@ -82,7 +190,7 @@
     height: 100%;
     color: $mainTextColor;
 
-    @media (max-width: 1280px) {
+    @media (max-width: 1380px) {
         display: none;
     }
 }
@@ -91,13 +199,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    align-items: center;
+    transition: color 0.3s ease;
     height: 100%;
 }
 
 .genreMenu {
     display: flex;
     align-items: center;
+    transition: color 0.3s ease;
 }
 
 .genreMenuIcon {
@@ -116,6 +225,10 @@
     background-color: #1f1f1f;
     width: 580px;
 
+    @media (max-width: 1024px) {
+        width: 480px;
+    }
+
     :hover {
         transition: color 0.3s ease;
         color: $primaryColor;
@@ -129,6 +242,11 @@
     width: 145px;
     height: 40px;
     font-size: medium;
+
+    @media (max-width: 1024px) {
+        width: 120px;
+        font-size: small;
+    }
 }
 
 .genreItemIcon {
@@ -139,6 +257,10 @@
     display: flex;
     align-items: center;
     gap: 5px;
+
+    @media (max-width: 768px) {
+        gap: 8px;
+    }
 }
 
 .headerUser > div {
@@ -149,6 +271,11 @@
     background-color: $sub2BGC;
     width: 32px;
     height: 30px;
+
+    @media (max-width: 768px) {
+        width: 28px;
+        height: 26px;
+    }
 }
 
 .headerUser > div:hover {
@@ -163,6 +290,19 @@
     color: $white;
 }
 
+// Mobile search icon
+.mobileSearchIcon {
+    display: none;
+
+    @media (max-width: 768px) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        color: $white;
+    }
+}
+
 .UserSubMenu {
     display: flex;
     position: absolute;
@@ -173,8 +313,14 @@
     border: 1px solid $borderColor;
     border-radius: 5px;
     background-color: $subBGC;
-    width: 500% !important;
-    height: 700% !important;
+    width: 500%;
+    height: 700%;
+
+    @media (max-width: 768px) {
+        right: 0;
+        width: 200px;
+        height: auto;
+    }
 }
 
 .UserSubMenu > span {
@@ -182,22 +328,49 @@
     flex-direction: row;
     align-items: center;
     gap: 10%;
-    width: 100% !important;
-    height: 50% !important;
-    color: #fff;
+    padding: 10px;
+    width: 100%;
+    height: 25%;
+    overflow: hidden;
+    color: $mainTextColor;
+
+    @media (max-width: 768px) {
+        padding: 8px;
+        height: 40px;
+    }
+}
+
+.UserSubMenu > span > p {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @media (max-width: 768px) {
+        font-size: 14px;
+    }
 }
 
 .UserSubMenu > span:hover {
     background-color: $mainBGC;
 }
 
-.UserSubMenu > span {
-    padding-left: 10px;
-    color: #fff;
+.loadingContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    color: $mainTextColor;
 }
 
-.container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
