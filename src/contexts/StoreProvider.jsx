@@ -5,6 +5,13 @@ import { ToastContext } from '@/contexts/ToastProvider';
 import { getGenres } from '@services/ComicService';
 import { getMyInfo } from '@services/UserService';
 
+const dataMenu = [
+    { id: 22, title: 'Manga' },
+    { id: 23, title: 'Manhwa' },
+    { id: 24, title: 'Manhua' },
+    { id: 28, title: 'Ngôn tình' }
+];
+
 export const StoreContext = createContext();
 
 export const StoreProvider = ({ children }) => {
@@ -38,7 +45,9 @@ export const StoreProvider = ({ children }) => {
     }, [userID]);
 
     return (
-        <StoreContext.Provider value={{ myInfo, genres, fetchMyInfo }}>
+        <StoreContext.Provider
+            value={{ myInfo, genres, fetchMyInfo, dataMenu }}
+        >
             {children}
         </StoreContext.Provider>
     );

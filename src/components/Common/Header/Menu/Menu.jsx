@@ -1,7 +1,11 @@
 import style from './style.module.scss';
 
-const Menu = ({ content, href }) => {
-    return <div className={style.menuItem}>{content}</div>;
+const Menu = ({ title, onClick }) => {
+    return (
+        <div className={style.menuItem} onClick={onClick}>
+            {title}
+        </div>
+    );
 };
 
 export default Menu;

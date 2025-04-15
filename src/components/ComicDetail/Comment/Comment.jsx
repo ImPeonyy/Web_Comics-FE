@@ -1,15 +1,16 @@
+import 'dayjs/locale/en';
+
 import { calcCurrentLevel } from '@utils/calcLevelUtils';
 import dayjs from 'dayjs';
 import style from './style.module.scss';
 
-const Comment = ({ avatar, username, createdAt, content, exp }) => {
-    const level = calcCurrentLevel(exp);
-    console.log(level);
+const Comment = ({ comment }) => {
+    const level = calcCurrentLevel(comment.user.exp);
 
     return (
         <div className={style.commentItem}>
             <div className={style.commentAvatar}>
-                <img src={avatar} alt={username} />
+                <img src={comment.user.avatar} alt={comment.user.username} />
                 <span
                     className={style.commentLevel}
                     style={{
@@ -23,13 +24,15 @@ const Comment = ({ avatar, username, createdAt, content, exp }) => {
             </div>
             <div className={style.commentContent}>
                 <div className={style.itemHeader}>
-                    <span className={style.itemUsername}>{username}</span>
+                    <span className={style.itemUsername}>
+                        {comment.user.username}
+                    </span>
                     <span className={style.itemTime}>
-                        {dayjs(createdAt).fromNow()}
+                        {dayjs(comment.created_at).fromNow()}
                     </span>
                 </div>
                 <div className={style.itemContent}>
-                    <span>{content}</span>
+                    <span>{comment.content}</span>
                 </div>
             </div>
         </div>

@@ -1,14 +1,28 @@
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import ComicContainer from '@components/ComicContainer/ComicContainer';
-import { Pagination } from 'antd';
+import { HistoryContext } from '@contexts/HistoryProvider';
+import Pagination from '@components/Pagination/Pagination';
 import style from './style.module.scss';
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const History = () => {
+    const navigate = useNavigate();
+
+    const { comics, pagination, fetchComics } = useContext(HistoryContext);
+
+    const handlePageChange = (newPage) => {
+        fetchComics(newPage);
+    };
+
     return (
-        <section className={style.history}>
+        <section className={style.historyComics}>
             <div className={style.container}>
                 <div className={style.title}>
-                    <div className={style.titleIcon}>
+                    <div
+                        className={style.titleIcon}
+                        onClick={() => navigate(-1)}
+                    >
                         <ArrowLeftOutlined />
                     </div>
                     <div className={style.titleText}>
@@ -16,11 +30,19 @@ const History = () => {
                     </div>
                 </div>
                 <div className={style.content}>
-                    <ComicContainer />
+                    {comics.length > 0 ? (
+                        <ComicContainer comics={comics} />
+                    ) : (
+                        <div className={style.noComics}>
+                            Không có lịch sử đọc truyện
+                        </div>
+                    )}
                 </div>
-                <div className={style.pagination}>
-                    <Pagination align='center' defaultCurrent={6} total={500} />
-                </div>
+                <Pagination
+                    currentPage={pagination.current_page}
+                    lastPage={pagination.last_page}
+                    onPageChange={handlePageChange}
+                />
             </div>
         </section>
     );

@@ -1,8 +1,14 @@
-import { DownOutlined, FilterOutlined, StarFilled } from '@ant-design/icons';
+import {
+    DownOutlined,
+    FilterOutlined,
+    LoadingOutlined,
+    StarFilled
+} from '@ant-design/icons';
 import { useContext, useEffect, useRef, useState } from 'react';
 
 import ComicContainer from '@components/ComicContainer/ComicContainer';
 import { ComicDetailContext } from '@contexts/ComicDetailProvider';
+import EmptyContent from '@components/EmptyContent/EmptyContent';
 import { FilterComicsContext } from '@contexts/FilterComicsProvider';
 import LoadingPage from '@components/Loading/LoadingPage/LoadingPage';
 import { StoreContext } from '@contexts/StoreProvider';
@@ -13,7 +19,8 @@ const FilterComics = () => {
     const { comics, sortOptions, statusOptions, isLoading } =
         useContext(FilterComicsContext);
     const { genres } = useContext(StoreContext);
-    const { handleRandomComic } = useContext(ComicDetailContext);
+    const { handleRandomComic, isRandomComicLoading } =
+        useContext(ComicDetailContext);
 
     const [openSubmenu, setOpenSubmenu] = useState('');
     const [selectedSort, setSelectedSort] = useState(sortOptions[0].label);
@@ -356,7 +363,11 @@ const FilterComics = () => {
                         onClick={handleRandomComic}
                     >
                         <span>
-                            <StarFilled />
+                            {isRandomComicLoading ? (
+                                <LoadingOutlined />
+                            ) : (
+                                <StarFilled />
+                            )}
                         </span>
                         <span>I'm Felling Lucky</span>
                     </div>
@@ -366,8 +377,12 @@ const FilterComics = () => {
                 <div className={style.loadingContainer}>
                     <LoadingPage />
                 </div>
-            ) : (
+            ) : comics.length > 0 ? (
                 <ComicContainer comics={comics} />
+            ) : (
+                <div className={style.emptyContent}>
+                    <EmptyContent content='Không tìm thấy kết quả' />
+                </div>
             )}
         </div>
     );

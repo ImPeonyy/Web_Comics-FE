@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 
 import { signIn, signUp } from '@services/AuthService';
+import { useContext, useState } from 'react';
 
 import { AuthFormContext } from '@contexts/AuthFormProvider';
 import Cookies from 'js-cookie';
@@ -8,12 +9,13 @@ import FormButton from '@components/AuthForm/FormButton/FormButton';
 import FormInput from '@components/AuthForm/FormInput/FormInput';
 import { ToastContext } from '@contexts/ToastProvider';
 import style from './style.module.scss';
-import { useContext } from 'react';
 import { useFormik } from 'formik';
 
 const AuthForm = () => {
     const { toast } = useContext(ToastContext);
     const { isAuthFormOpen, setIsAuthFormOpen } = useContext(AuthFormContext);
+    const [isSignInLoading, setIsSignInLoading] = useState(false);
+    const [isSignUpLoading, setIsSignUpLoading] = useState(false);
 
     const handleOverlayClick = () => {
         setIsAuthFormOpen(false);
@@ -39,6 +41,7 @@ const AuthForm = () => {
 
         onSubmit: (values) => {
             const { email, password } = values;
+            setIsSignInLoading(true);
             signIn({ email, password })
                 .then((res) => {
                     window.location.reload();
@@ -50,6 +53,9 @@ const AuthForm = () => {
                 .catch((err) => {
                     toast.error('Sai tài khoản hoặc mật khẩu!');
                     console.log(err);
+                })
+                .finally(() => {
+                    setIsSignInLoading(false);
                 });
         }
     });
@@ -77,6 +83,7 @@ const AuthForm = () => {
         }),
         onSubmit: (values, { resetForm }) => {
             const { username, email, password, confirmPassword } = values;
+            setIsSignUpLoading(true);
             signUp({ username, email, password, confirmPassword })
                 .then((res) => {
                     toast.success(res.data.message);
@@ -84,8 +91,17 @@ const AuthForm = () => {
                     document.getElementById('chk').checked = false;
                 })
                 .catch((err) => {
-                    toast.error('Sai tài khoản hoặc mật khẩu!');
+                    if (Array.isArray(err.response.data.messages)) {
+                        err.response.data.messages.forEach((msg) => {
+                            toast.error(msg);
+                        });
+                    } else {
+                        toast.error(err.response.data.message);
+                    }
                     console.log(err);
+                })
+                .finally(() => {
+                    setIsSignUpLoading(false);
                 });
         }
     });
@@ -123,7 +139,11 @@ const AuthForm = () => {
                                     required
                                     formik={formikSignIn}
                                 />
-                                <FormButton type='submit' title={'Đăng Nhập'} />
+                                <FormButton
+                                    type='submit'
+                                    title={'Đăng Nhập'}
+                                    isLoading={isSignInLoading}
+                                />
                             </form>
                         </div>
 
@@ -163,7 +183,11 @@ const AuthForm = () => {
                                     required
                                     formik={formikSignUp}
                                 />
-                                <FormButton type='submit' title={'Đăng Ký'} />
+                                <FormButton
+                                    type='submit'
+                                    title={'Đăng Ký'}
+                                    isLoading={isSignUpLoading}
+                                />
                             </form>
                         </div>
                     </div>

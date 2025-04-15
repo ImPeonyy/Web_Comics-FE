@@ -1,7 +1,7 @@
 import Comic from '@components/Comic/Comic';
 import style from './style.module.scss';
 
-const ComicContainer = ({ comics }) => {
+const ComicContainer = ({ comics, onDelete, deletingComicId }) => {
     return (
         <div className={style.comicContainer}>
             {comics.map((comic) => (
@@ -14,6 +14,9 @@ const ComicContainer = ({ comics }) => {
                         chapterStyle={{
                             fontSize: '10px'
                         }}
+                        onDelete={onDelete}
+                        isLoading={deletingComicId === comic.id}
+                        chapter={comic.chapter}
                     />
                 </div>
             ))}
