@@ -16,32 +16,50 @@ export const ComicDetailProvider = ({ children }) => {
     const [comicDetail, setComicDetail] = useState(null);
     const [commentList, setCommentList] = useState([]);
     const [cmtCount, setCmtCount] = useState(0);
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [isRandomComicLoading, setIsRandomComicLoading] = useState(false);
+    const [isChaptersLoading, setIsChaptersLoading] = useState(false);
+    const [isCommentsLoading, setIsCommentsLoading] = useState(false);
 
-    const fetchCommentList = async () => {
+    useEffect(() => {
+        if (comicDetail) {
+            setIsFavorite(comicDetail.isFavorite);
+        }
+    }, [comicDetail]);
+
+    const fetchCommentList = () => {
         if (!comicDetail) return;
 
-        try {
-            const res = await getCmtByComicId(comicDetail.id);
-            const data = res.data.data;
-            setCommentList(data.comments);
-            setCmtCount(data.total_comments);
-        } catch (err) {
-            console.log(err);
-        }
+        setIsCommentsLoading(true);
+
+        getCmtByComicId(comicDetail.id)
+            .then((res) => {
+                const data = res.data.data;
+                setCommentList(data.comments);
+                setCmtCount(data.total_comments);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+            .finally(() => {
+                setIsCommentsLoading(false);
+            });
     };
 
-    const sendComment = async (content) => {
+    const sendComment = (content) => {
         if (!comicDetail) return;
 
-        try {
-            await postComment(comicDetail.id, content);
-            await fetchCommentList(); // Refresh lại danh sách comment sau khi gửi
-        } catch (err) {
-            console.log(err);
-        }
+        postComment(comicDetail.id, content)
+            .then(() => {
+                fetchCommentList();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
-    const handleRandomComic = async () => {
+    const handleRandomComic = () => {
+        setIsRandomComicLoading(true);
         getRandomComic()
             .then((res) => {
                 const data = res.data.data;
@@ -55,18 +73,25 @@ export const ComicDetailProvider = ({ children }) => {
             })
             .catch((err) => {
                 console.log(err);
+            })
+            .finally(() => {
+                setIsRandomComicLoading(false);
             });
     };
 
     useEffect(() => {
         if (!comicDetail) return;
 
+        setIsChaptersLoading(true);
         getChapterList(comicDetail.id)
             .then((res) => {
                 setChapterList([...res.data].reverse());
             })
             .catch((err) => {
                 console.log(err);
+            })
+            .finally(() => {
+                setIsChaptersLoading(false);
             });
     }, [comicDetail]);
 
@@ -86,7 +111,12 @@ export const ComicDetailProvider = ({ children }) => {
                 cmtCount,
                 fetchCommentList,
                 sendComment,
-                handleRandomComic
+                handleRandomComic,
+                isChaptersLoading,
+                isCommentsLoading,
+                isFavorite,
+                setIsFavorite,
+                isRandomComicLoading
             }}
         >
             {children}

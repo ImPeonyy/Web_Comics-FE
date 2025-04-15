@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 
+import { addHistory } from '@services/FavHisService';
 import { getChapterImages } from '@services/ComicService';
 
 export const ReadComicContext = createContext();
@@ -13,6 +14,13 @@ export const ReadComicProvider = ({ children }) => {
             getChapterImages(chapter.id)
                 .then((res) => {
                     setChapterImages(res.data);
+                    addHistory(chapter.comic_id, chapter.id)
+                        .then(() => {
+                            console.log('History added');
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
                 })
                 .catch((err) => {
                     console.log(err);

@@ -1,15 +1,22 @@
-import { EyeOutlined, HeartFilled, HeartOutlined } from '@ant-design/icons';
+import {
+    EyeOutlined,
+    HeartFilled,
+    HeartOutlined,
+    LoadingOutlined
+} from '@ant-design/icons';
 import { addFav, removeFav } from '@services/FavHisService';
 import { useContext, useState } from 'react';
 
 import { ComicDetailContext } from '@contexts/ComicDetailProvider';
 import GenreTag from '@components/Genres/GenreTag/GenreTag';
 import style from './style.module.scss';
+import { toast } from 'react-toastify';
 
 const Comic = ({ comic }) => {
     const { setIsComicDetailOpen, setComicDetail } =
         useContext(ComicDetailContext);
     const [isFavorite, setIsFavorite] = useState(comic.isFavorite);
+    const [isFavLoading, setIsFavLoading] = useState(false);
 
     const handleClick = () => {
         setComicDetail(comic);
@@ -18,15 +25,31 @@ const Comic = ({ comic }) => {
 
     const handleFavorite = (e) => {
         e.stopPropagation();
-        setIsFavorite(!isFavorite);
+        setIsFavLoading(true);
         if (isFavorite) {
-            removeFav(comic.id).catch((err) => {
-                console.log(err);
-            });
+            removeFav(comic.id)
+                .then((res) => {
+                    toast.warn(res.data.message);
+                    setIsFavorite(!isFavorite);
+                })
+                .catch((err) => {
+                    toast.error(err.response.data.message);
+                })
+                .finally(() => {
+                    setIsFavLoading(false);
+                });
         } else {
-            addFav(comic.id).catch((err) => {
-                console.log(err);
-            });
+            addFav(comic.id)
+                .then((res) => {
+                    toast.success(res.data.message);
+                    setIsFavorite(!isFavorite);
+                })
+                .catch((err) => {
+                    toast.error(err.response.data.message);
+                })
+                .finally(() => {
+                    setIsFavLoading(false);
+                });
         }
     };
 
@@ -61,7 +84,13 @@ const Comic = ({ comic }) => {
                             className={style.actionHeart}
                             onClick={handleFavorite}
                         >
-                            {isFavorite ? <HeartFilled /> : <HeartOutlined />}
+                            {isFavLoading ? (
+                                <LoadingOutlined />
+                            ) : isFavorite ? (
+                                <HeartFilled />
+                            ) : (
+                                <HeartOutlined />
+                            )}
                         </div>
                     </div>
                 </div>

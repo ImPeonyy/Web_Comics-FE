@@ -6,15 +6,18 @@ import {
     EyeOutlined,
     HeartFilled,
     HeartOutlined,
+    LoadingOutlined,
     ReadOutlined,
     SendOutlined
 } from '@ant-design/icons';
+import { addFav, removeFav } from '@services/FavHisService';
 import { useContext, useState } from 'react';
 
 import Chapter from '@components/ComicDetail/Chapter/Chapter';
 import { ComicDetailContext } from '@contexts/ComicDetailProvider';
 import Comment from '@components/ComicDetail/Comment/Comment';
 import GenreTag from '@components/Genres/GenreTag/GenreTag';
+import LoadingComponent from '@components/Loading/LoadingComponent/LoadingComponent';
 import TinyLoading from '@components/Loading/TinyLoading/TinyLoading';
 import dayjs from 'dayjs';
 import { postComment } from '@services/ComicService';
@@ -35,13 +38,18 @@ const ComicDetail = () => {
         setIsComicDetailOpen,
         comicDetail,
         chapterList,
-        handleFavorite,
         commentList,
         cmtCount,
-        fetchCommentList
+        fetchCommentList,
+        isFavorite,
+        setIsFavorite,
+        isChaptersLoading,
+        isCommentsLoading
     } = useContext(ComicDetailContext);
 
     const [postCmtLoading, setPostCmtLoading] = useState(false);
+
+    const [isFavLoading, setIsFavLoading] = useState(false);
 
     const handleOverlayClick = () => {
         setIsComicDetailOpen(false);
@@ -77,8 +85,12 @@ const ComicDetail = () => {
     };
 
     const handlePostComment = () => {
-        setPostCmtLoading(true);
         const content = document.getElementById('content').value;
+        if (content.trim() === '') {
+            toast.error('Bình luận không được để trống!');
+            return;
+        }
+        setPostCmtLoading(true);
 
         postComment(comicDetail.id, content)
             .then(() => {
@@ -92,6 +104,36 @@ const ComicDetail = () => {
                 console.log(err);
                 setPostCmtLoading(false);
             });
+    };
+
+    const handleFavorite = (e) => {
+        e.stopPropagation();
+        setIsFavLoading(true);
+        if (isFavorite) {
+            removeFav(comicDetail.id)
+                .then((res) => {
+                    toast.warn(res.data.message);
+                    setIsFavorite(!isFavorite);
+                })
+                .catch((err) => {
+                    toast.error(err.response.data.message);
+                })
+                .finally(() => {
+                    setIsFavLoading(false);
+                });
+        } else {
+            addFav(comicDetail.id)
+                .then((res) => {
+                    toast.success(res.data.message);
+                    setIsFavorite(!isFavorite);
+                })
+                .catch((err) => {
+                    toast.error(err.response.data.message);
+                })
+                .finally(() => {
+                    setIsFavLoading(false);
+                });
+        }
     };
 
     return (
@@ -160,19 +202,19 @@ const ComicDetail = () => {
                                 </div>
                                 <button
                                     className={`${style.favorite} ${
-                                        comicDetail.isFavorite
-                                            ? style.favoriteActive
-                                            : ''
+                                        isFavorite ? style.favoriteActive : ''
                                     }`}
                                     onClick={handleFavorite}
                                 >
-                                    {comicDetail.isFavorite ? (
+                                    {isFavLoading ? (
+                                        <LoadingOutlined />
+                                    ) : isFavorite ? (
                                         <HeartFilled />
                                     ) : (
                                         <HeartOutlined />
                                     )}
                                     <span>
-                                        {comicDetail.isFavorite
+                                        {isFavorite
                                             ? 'Đã yêu thích'
                                             : 'Yêu thích'}
                                     </span>
@@ -201,15 +243,25 @@ const ComicDetail = () => {
                                         </span>
                                     </div>
                                     <div className={style.chapterList}>
-                                        {chapterList.map((chapter) => (
-                                            <Chapter
-                                                key={chapter.id}
-                                                chapter={chapter}
-                                                onClick={() => {
-                                                    handleChapterClick(chapter);
-                                                }}
-                                            />
-                                        ))}
+                                        {isChaptersLoading ? (
+                                            <div
+                                                className={style.loadingChapter}
+                                            >
+                                                <LoadingComponent />
+                                            </div>
+                                        ) : (
+                                            chapterList.map((chapter) => (
+                                                <Chapter
+                                                    key={chapter.id}
+                                                    chapter={chapter}
+                                                    onClick={() => {
+                                                        handleChapterClick(
+                                                            chapter
+                                                        );
+                                                    }}
+                                                />
+                                            ))
+                                        )}
                                     </div>
                                 </div>
                                 <div className={style.commentContainer}>
@@ -223,7 +275,7 @@ const ComicDetail = () => {
                                             onClick={handlePostComment}
                                         >
                                             {postCmtLoading ? (
-                                                <TinyLoading />
+                                                <LoadingOutlined />
                                             ) : (
                                                 <SendOutlined />
                                             )}
@@ -238,16 +290,20 @@ const ComicDetail = () => {
                                         />
                                     </div>
                                     <div className={style.commentList}>
-                                        {commentList.map((comment) => (
-                                            <Comment
-                                                key={comment.id}
-                                                avatar={comment.user.avatar}
-                                                username={comment.user.username}
-                                                createdAt={comment.created_at}
-                                                content={comment.content}
-                                                exp={comment.user.exp}
-                                            />
-                                        ))}
+                                        {isCommentsLoading ? (
+                                            <div
+                                                className={style.loadingComment}
+                                            >
+                                                <LoadingComponent />
+                                            </div>
+                                        ) : (
+                                            commentList.map((comment) => (
+                                                <Comment
+                                                    key={comment.id}
+                                                    comment={comment}
+                                                />
+                                            ))
+                                        )}
                                     </div>
                                 </div>
                             </div>

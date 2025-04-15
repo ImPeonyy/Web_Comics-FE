@@ -3,6 +3,7 @@ import {
     FilterOutlined,
     HeartFilled,
     HistoryOutlined,
+    LoadingOutlined,
     LogoutOutlined,
     RightOutlined,
     SearchOutlined,
@@ -22,7 +23,6 @@ import Menu from './Menu/Menu.jsx';
 import { StoreContext } from '@contexts/StoreProvider';
 import TinyLoading from '@components/Loading/TinyLoading/TinyLoading.jsx';
 import { ToastContext } from '@contexts/ToastProvider';
-import { dataMenu } from './constants';
 import { searchComics } from '@services/ComicService';
 import { signOut } from '@services/AuthService';
 import style from './style.module.scss';
@@ -39,8 +39,9 @@ const Header = () => {
     const location = useLocation();
 
     const { setIsAuthFormOpen } = useContext(AuthFormContext);
-    const { myInfo, setMyInfo, genres } = useContext(StoreContext);
-    const { handleRandomComic } = useContext(ComicDetailContext);
+    const { myInfo, setMyInfo, genres, dataMenu } = useContext(StoreContext);
+    const { handleRandomComic, isRandomComicLoading } =
+        useContext(ComicDetailContext);
     const { toast } = useContext(ToastContext);
 
     const navigate = useNavigate();
@@ -101,16 +102,16 @@ const Header = () => {
 
     const handleHistory = (e) => {
         e.stopPropagation();
-        navigate('/history');
+        navigate('/history?page=1');
     };
 
     const handleFavorite = (e) => {
         e.stopPropagation();
-        navigate('/favorite');
+        navigate('/favorites?page=1');
     };
 
-    const handleGenreClick = (genre) => {
-        navigate(`/filter-comics?genres=${genre.id}`);
+    const handleGenreClick = (id) => {
+        navigate(`/filter-comics?genres=${id}`);
     };
 
     const handleFilterClick = () => {
@@ -269,7 +270,7 @@ const Header = () => {
                                                 className={style.genreItem}
                                                 key={index}
                                                 onClick={() =>
-                                                    handleGenreClick(genre)
+                                                    handleGenreClick(genre.id)
                                                 }
                                             >
                                                 <div
@@ -291,8 +292,8 @@ const Header = () => {
                         return (
                             <Menu
                                 key={index}
-                                content={item.content}
-                                href={item.href}
+                                title={item.title}
+                                onClick={() => handleGenreClick(item.id)}
                             />
                         );
                     })}
@@ -308,7 +309,11 @@ const Header = () => {
                         className={style.luckyIcon}
                         onClick={handleRandomComic}
                     >
-                        <StarFilled />
+                        {isRandomComicLoading ? (
+                            <LoadingOutlined />
+                        ) : (
+                            <StarFilled />
+                        )}
                     </div>
                     <div
                         className={style.userIcon}

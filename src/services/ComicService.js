@@ -9,6 +9,15 @@ const getAllComic = async (page = 1) => {
     });
 };
 
+const getAllComicAuth = async (page = 1) => {
+    return await axiosClient.get(`/comics/auth`, {
+        params: {
+            page,
+            per_page: 10
+        }
+    });
+};
+
 const getComicById = async (comicId) => {
     return await axiosClient.get(`/comics/${comicId}`);
 };
@@ -71,6 +80,7 @@ const searchComics = async (keyword) => {
 
 export {
     getAllComic,
+    getAllComicAuth,
     getComicById,
     getGenres,
     getChapterList,

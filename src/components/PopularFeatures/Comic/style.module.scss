@@ -5,27 +5,52 @@
     display: flex;
 }
 
-.comicCoverImage div img {
-    width: 56px;
-    height: 80px;
+.comicCoverImage > div > img {
+    cursor: pointer;
     border-radius: 3px;
+    width: 60px;
+    height: 80px;
 }
 
 .comicInfo {
-    padding: 0px 10px;
-    font-size: small;
     display: flex;
     flex-direction: column;
     gap: 15px;
+    padding: 0px 10px;
+    font-size: small;
 }
 
-.comicInfo a {
+.comicTitle {
+    cursor: pointer;
+    color: $mainTextColor;
+
+    &:hover {
+        color: $primaryColor;
+    }
+}
+
+.comicInfo > span {
+    cursor: pointer;
     color: $mainTextColor;
     text-decoration: none;
 }
 
-.comicInfo a:hover {
+.comicInfo > span:hover {
+    color: $primaryColor !important;
+}
+
+.comicSubInfo {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.comicView {
+    display: flex;
+    align-items: center;
+    gap: 5px;
     color: $primaryColor;
+    font-size: medium;
 }
 
 .comicUpdateAt {

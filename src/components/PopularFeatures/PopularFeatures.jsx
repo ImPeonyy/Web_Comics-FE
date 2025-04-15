@@ -1,11 +1,33 @@
 import { ConfigProvider, Tabs } from 'antd';
-import { features, statistic } from './constant.js';
 
 import Comic from './Comic/Comic.jsx';
 import Feature from './Feature/Feature.jsx';
+import { HomePageContext } from '@contexts/HomePageProvider';
+import LoadingComponent from '@components/Loading/LoadingComponent/LoadingComponent.jsx';
 import style from './style.module.scss';
+import { useContext } from 'react';
 
 const PopularFeatures = () => {
+    const {
+        features,
+        statistic,
+        topComicsByMonth,
+        topComicsByWeek,
+        topComicsByDay,
+        isTopComicsLoading
+    } = useContext(HomePageContext);
+
+    const getComicsByTime = (title) => {
+        if (title === 'Top Tháng') {
+            return topComicsByMonth;
+        } else if (title === 'Top Tuần') {
+            return topComicsByWeek;
+        } else if (title === 'Top Ngày') {
+            return topComicsByDay;
+        }
+        return [];
+    };
+
     return (
         <section className={style.PopularFeatures}>
             <div className={style.container}>
@@ -35,16 +57,48 @@ const PopularFeatures = () => {
                                     }}
                                     type='card'
                                     items={statistic.map((item, index) => {
+                                        const comics = getComicsByTime(
+                                            item.title
+                                        );
                                         return {
                                             label: `${item.title}`,
                                             key: index,
                                             children: (
                                                 <div className={style.comics}>
-                                                    <Comic />
-                                                    <Comic />
-                                                    <Comic />
-                                                    <Comic />
-                                                    <Comic />
+                                                    {isTopComicsLoading ? (
+                                                        <div
+                                                            className={
+                                                                style.loading
+                                                            }
+                                                        >
+                                                            <LoadingComponent />
+                                                        </div>
+                                                    ) : comics.length === 0 ? (
+                                                        <div
+                                                            className={
+                                                                style.emptyMessage
+                                                            }
+                                                        >
+                                                            Không có dữ liệu
+                                                        </div>
+                                                    ) : (
+                                                        comics.map(
+                                                            (comic, index) => (
+                                                                <Comic
+                                                                    key={index}
+                                                                    comic={
+                                                                        comic
+                                                                    }
+                                                                    chapter={
+                                                                        comic.chapters
+                                                                    }
+                                                                    view={
+                                                                        comic.view_count
+                                                                    }
+                                                                />
+                                                            )
+                                                        )
+                                                    )}
                                                 </div>
                                             )
                                         };
