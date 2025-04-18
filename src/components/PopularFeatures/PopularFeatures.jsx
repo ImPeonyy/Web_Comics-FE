@@ -92,8 +92,8 @@ const PopularFeatures = () => {
                                                                     chapter={
                                                                         comic.chapters
                                                                     }
-                                                                    view={
-                                                                        comic.view_count
+                                                                    views={
+                                                                        comic.totalViews
                                                                     }
                                                                 />
                                                             )

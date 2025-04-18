@@ -5,19 +5,26 @@ import {
     StarFilled
 } from '@ant-design/icons';
 import { useContext, useEffect, useRef, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import ComicContainer from '@components/ComicContainer/ComicContainer';
 import { ComicDetailContext } from '@contexts/ComicDetailProvider';
 import EmptyContent from '@components/EmptyContent/EmptyContent';
 import { FilterComicsContext } from '@contexts/FilterComicsProvider';
 import LoadingPage from '@components/Loading/LoadingPage/LoadingPage';
+import Pagination from '@components/Pagination/Pagination';
 import { StoreContext } from '@contexts/StoreProvider';
 import style from './style.module.scss';
-import { useNavigate } from 'react-router-dom';
 
 const FilterComics = () => {
-    const { comics, sortOptions, statusOptions, isLoading } =
-        useContext(FilterComicsContext);
+    const {
+        comics,
+        sortOptions,
+        statusOptions,
+        isLoading,
+        pagination,
+        fetchComics
+    } = useContext(FilterComicsContext);
     const { genres } = useContext(StoreContext);
     const { handleRandomComic, isRandomComicLoading } =
         useContext(ComicDetailContext);
@@ -32,8 +39,13 @@ const FilterComics = () => {
     );
 
     const containerRef = useRef(null);
-
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const handlePageChange = (newPage) => {
+        setSearchParams({ ...Object.fromEntries(searchParams), page: newPage });
+        fetchComics(newPage);
+    };
 
     const isOptionSelected = (option, filterType) => {
         switch (filterType) {
@@ -378,7 +390,14 @@ const FilterComics = () => {
                     <LoadingPage />
                 </div>
             ) : comics.length > 0 ? (
-                <ComicContainer comics={comics} />
+                <>
+                    <ComicContainer comics={comics} />
+                    <Pagination
+                        currentPage={pagination.current_page}
+                        lastPage={pagination.last_page}
+                        onPageChange={handlePageChange}
+                    />
+                </>
             ) : (
                 <div className={style.emptyContent}>
                     <EmptyContent content='Không tìm thấy kết quả' />

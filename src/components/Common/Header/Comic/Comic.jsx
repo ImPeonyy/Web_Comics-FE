@@ -2,7 +2,6 @@ import { CloudUploadOutlined, EyeOutlined } from '@ant-design/icons';
 
 import { ComicDetailContext } from '@contexts/ComicDetailProvider';
 import GenreTag from '@components/Genres/GenreTag/GenreTag';
-import { calcView } from '@utils/commonUtils';
 import dayjs from 'dayjs';
 import style from './style.module.scss';
 import { useContext } from 'react';
@@ -15,8 +14,6 @@ const Comic = ({ comic }) => {
         setComicDetail(comic);
         setIsComicDetailOpen(true);
     };
-
-    const view = calcView(comic.statistics);
 
     return (
         <div className={style.comicContainer} onClick={handleClick}>
@@ -31,7 +28,7 @@ const Comic = ({ comic }) => {
                     </div>
                     <div className={style.view}>
                         <EyeOutlined />
-                        <span>{view}</span>
+                        <span>{comic.totalViews}</span>
                     </div>
                     <div className={style.published}>
                         <CloudUploadOutlined />

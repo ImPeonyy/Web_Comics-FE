@@ -7,14 +7,14 @@ import style from './style.module.scss';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Comic = ({ comic, chapter, view }) => {
+const Comic = ({ comic, historyChapter, views }) => {
     const { setComicDetail, setIsComicDetailOpen } =
         useContext(ComicDetailContext);
 
     const navigate = useNavigate();
+    const chapter = historyChapter ? historyChapter : comic.chapters[0];
 
     const handleClick = () => {
-        console.log(comic);
         setComicDetail(comic);
         setIsComicDetailOpen(true);
     };
@@ -44,40 +44,23 @@ const Comic = ({ comic, chapter, view }) => {
                 </h3>
                 <span
                     className={style.comicChapter}
-                    onClick={(e) =>
-                        handleChapterClick(
-                            Array.isArray(chapter) ? chapter[0] : chapter,
-                            e
-                        )
-                    }
+                    onClick={(e) => handleChapterClick(chapter, e)}
                     style={{
-                        color: chapterStatus(
-                            Array.isArray(chapter) ? chapter[0] : chapter
-                        )
-                            ? '#9d9d9d'
-                            : '#ffffff',
-                        opacity: chapterStatus(
-                            Array.isArray(chapter) ? chapter[0] : chapter
-                        )
-                            ? 0.5
-                            : 1
+                        color: chapterStatus(chapter) ? '#9d9d9d' : '#ffffff',
+                        opacity: chapterStatus(chapter) ? 0.5 : 1
                     }}
                 >
-                    {Array.isArray(chapter) ? chapter[0].title : chapter.title}
+                    {chapter.title}
                 </span>
                 <div className={style.comicSubInfo}>
-                    {view && (
+                    {views && (
                         <span className={style.comicView}>
                             <EyeOutlined />
-                            {view}
+                            {views}
                         </span>
                     )}
                     <span className={style.comicUpdateAt}>
-                        {dayjs(
-                            Array.isArray(chapter)
-                                ? comic.created_at
-                                : chapter.updated_at
-                        ).fromNow()}
+                        {dayjs(chapter.updated_at).fromNow()}
                     </span>
                 </div>
             </div>

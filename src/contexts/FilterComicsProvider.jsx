@@ -23,8 +23,16 @@ export const FilterComicsProvider = ({ children }) => {
     const [comics, setComics] = useState([]);
     const [searchParams] = useSearchParams();
     const [isLoading, setIsLoading] = useState(false);
+    const [pagination, setPagination] = useState({
+        current_page: 1,
+        last_page: 1,
+        per_page: 10,
+        total: 0,
+        from: 0,
+        to: 0
+    });
 
-    const fetchComics = async () => {
+    const fetchComics = async (page = 1) => {
         setIsLoading(true);
         const keyword = searchParams.get('keyword');
         const sortBy = searchParams.get('sortBy');
@@ -40,13 +48,14 @@ export const FilterComicsProvider = ({ children }) => {
 
         if (!hasParams) {
             // Nếu không có tham số nào, lấy tất cả truyện
-            const res = await filterComic({});
+            const res = await filterComic({ page });
             setComics(res.data.data);
+            setPagination(res.data.pagination);
             setIsLoading(false);
             return;
         }
 
-        const params = {};
+        const params = { page };
 
         if (keyword) {
             params.keyword = keyword;
@@ -67,6 +76,7 @@ export const FilterComicsProvider = ({ children }) => {
         filterComic(params)
             .then((res) => {
                 setComics(res.data.data);
+                setPagination(res.data.pagination);
             })
             .catch((err) => {
                 setComics([]);
@@ -78,7 +88,8 @@ export const FilterComicsProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        fetchComics();
+        const page = searchParams.get('page') || 1;
+        fetchComics(parseInt(page));
     }, [searchParams]);
 
     return (
@@ -89,7 +100,8 @@ export const FilterComicsProvider = ({ children }) => {
                 fetchComics,
                 sortOptions,
                 statusOptions,
-                isLoading
+                isLoading,
+                pagination
             }}
         >
             {children}

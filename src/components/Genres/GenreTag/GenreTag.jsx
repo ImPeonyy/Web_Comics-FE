@@ -1,7 +1,7 @@
 import style from './style.module.scss';
 import { useNavigate } from 'react-router-dom';
 
-const Genre = ({ title, genre }) => {
+const Genre = ({ title, genre, onClick }) => {
     const navigate = useNavigate();
 
     const type = () => {
@@ -17,6 +17,7 @@ const Genre = ({ title, genre }) => {
 
     const handleClick = (e) => {
         e.stopPropagation();
+        onClick(e);
         if (genre) {
             navigate(`/filter-comics?genres=${genre.id}`);
         } else {
