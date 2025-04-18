@@ -1,17 +1,21 @@
+import { useNavigate, useSearchParams } from 'react-router-dom';
+
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import ComicContainer from '@components/ComicContainer/ComicContainer';
+import EmptyContent from '@components/EmptyContent/EmptyContent';
 import { HistoryContext } from '@contexts/HistoryProvider';
 import Pagination from '@components/Pagination/Pagination';
 import style from './style.module.scss';
 import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 const History = () => {
+    const { data, pagination, fetchComics } = useContext(HistoryContext);
+    const [searchParams, setSearchParams] = useSearchParams();
+
     const navigate = useNavigate();
 
-    const { comics, pagination, fetchComics } = useContext(HistoryContext);
-
     const handlePageChange = (newPage) => {
+        setSearchParams({ page: newPage });
         fetchComics(newPage);
     };
 
@@ -30,11 +34,11 @@ const History = () => {
                     </div>
                 </div>
                 <div className={style.content}>
-                    {comics.length > 0 ? (
-                        <ComicContainer comics={comics} />
+                    {data.length > 0 ? (
+                        <ComicContainer comics={data} isHistory={true} />
                     ) : (
-                        <div className={style.noComics}>
-                            Không có lịch sử đọc truyện
+                        <div className={style.emptyContent}>
+                            <EmptyContent content='Không có lịch sử đọc truyện' />
                         </div>
                     )}
                 </div>

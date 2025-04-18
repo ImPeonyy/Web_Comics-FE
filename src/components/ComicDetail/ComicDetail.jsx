@@ -170,12 +170,21 @@ const ComicDetail = () => {
                                             <GenreTag
                                                 type='status'
                                                 title={comicDetail.status}
+                                                onClick={() => {
+                                                    setIsComicDetailOpen(false);
+                                                }}
                                             />
                                             {comicDetail.genres.map((genre) => (
                                                 <GenreTag
                                                     key={genre.id}
                                                     type='genre'
                                                     title={genre.name}
+                                                    genre={genre}
+                                                    onClick={() => {
+                                                        setIsComicDetailOpen(
+                                                            false
+                                                        );
+                                                    }}
                                                 />
                                             ))}
                                         </div>
@@ -222,7 +231,7 @@ const ComicDetail = () => {
                                 <div className={style.info}>
                                     <div className={style.view}>
                                         <EyeOutlined />
-                                        <span>{comicDetail.view}</span>
+                                        <span>{comicDetail.totalViews}</span>
                                     </div>
                                     <div className={style.published}>
                                         <CloudUploadOutlined />

@@ -6,8 +6,6 @@ import {
     postComment
 } from '@services/ComicService';
 
-import { calcView } from '@utils/commonUtils';
-
 export const ComicDetailContext = createContext();
 
 export const ComicDetailProvider = ({ children }) => {
@@ -23,7 +21,7 @@ export const ComicDetailProvider = ({ children }) => {
 
     useEffect(() => {
         if (comicDetail) {
-            setIsFavorite(comicDetail.isFavorite);
+            setIsFavorite(comicDetail.isFav);
         }
     }, [comicDetail]);
 
@@ -63,11 +61,6 @@ export const ComicDetailProvider = ({ children }) => {
         getRandomComic()
             .then((res) => {
                 const data = res.data.data;
-
-                data.view = calcView(data.statistics);
-
-                data.isFavorite = data.favorites && data.favorites.length > 0;
-
                 setComicDetail(data);
                 setIsComicDetailOpen(true);
             })

@@ -12,16 +12,6 @@ const publicRouters = [
         isPrivate: false
     },
     {
-        path: '/genre/:genreSlug',
-        component: lazy(() => import('@pages/ComicsGenrePage')),
-        isPrivate: false
-    },
-    {
-        path: '/genre/:genreSlug?page=:page',
-        component: lazy(() => import('@pages/ComicsGenrePage')),
-        isPrivate: false
-    },
-    {
         path: '/filter-comics',
         component: lazy(() => import('@pages/FilterComicsPage')),
         isPrivate: false

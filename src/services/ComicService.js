@@ -4,16 +4,7 @@ const getAllComic = async (page = 1) => {
     return await axiosClient.get(`/comics`, {
         params: {
             page,
-            per_page: 10
-        }
-    });
-};
-
-const getAllComicAuth = async (page = 1) => {
-    return await axiosClient.get(`/comics/auth`, {
-        params: {
-            page,
-            per_page: 10
+            per_page: 12
         }
     });
 };
@@ -45,15 +36,6 @@ const getGenres = async () => {
     return await axiosClient.get(`/genres`);
 };
 
-const getComicsByGenre = async (genreId, page = 1) => {
-    return await axiosClient.get(`/comics-genres/${genreId}`, {
-        params: {
-            page,
-            per_page: 10
-        }
-    });
-};
-
 const filterComic = async (params) => {
     return await axiosClient.get('/comics/filter', {
         params: {
@@ -61,7 +43,9 @@ const filterComic = async (params) => {
             genres: params.genres?.join(','),
             status: params.status,
             sortBy: params.sortBy,
-            direction: params.direction
+            direction: params.direction,
+            page: params.page,
+            per_page: 12
         }
     });
 };
@@ -80,13 +64,11 @@ const searchComics = async (keyword) => {
 
 export {
     getAllComic,
-    getAllComicAuth,
     getComicById,
     getGenres,
     getChapterList,
     getChapterImages,
     getCmtByComicId,
-    getComicsByGenre,
     postComment,
     filterComic,
     getRandomComic,

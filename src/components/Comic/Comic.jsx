@@ -14,7 +14,7 @@ const Comic = ({
     comic,
     onDelete,
     isLoading,
-    chapter
+    historyChapter
 }) => {
     const { setComicDetail, setIsComicDetailOpen } =
         useContext(ComicDetailContext);
@@ -37,48 +37,60 @@ const Comic = ({
     };
 
     return (
-        <>
-            {chapter ? (
+        <div className={style.comic} onClick={() => handleClick(comic)}>
+            {onDelete && (
                 <div
-                    className={style.comic}
-                    onClick={() => handleClick(comic.comic)}
+                    className={style.deleteButton}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onDelete(comic.id);
+                    }}
                 >
-                    {onDelete && (
+                    {isLoading ? <LoadingOutlined /> : <CloseOutlined />}
+                </div>
+            )}
+            <a className={style.comicBG}>
+                <img src={comic.cover_image} alt='' />
+            </a>
+            <div className={style.comicInfo}>
+                <h3 style={titleStyle}>{comic.title}</h3>
+                <div className={style.comicChapters}>
+                    {historyChapter ? (
                         <div
-                            className={style.deleteButton}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                onDelete(comic.comic.id);
+                            className={style.chapter}
+                            style={{
+                                ...chapterStyle,
+                                color: '#ffffff',
+                                marginBottom: '20px'
                             }}
                         >
-                            {isLoading ? (
-                                <LoadingOutlined />
-                            ) : (
-                                <CloseOutlined />
-                            )}
+                            <a
+                                onClick={(e) =>
+                                    handleChapterClick(comic, historyChapter, e)
+                                }
+                            >
+                                {historyChapter.title}
+                            </a>
+                            <span>
+                                {dayjs(historyChapter.created_at).fromNow()}
+                            </span>
                         </div>
-                    )}
-                    <a className={style.comicBG}>
-                        <img src={comic.comic.cover_image} alt='' />
-                    </a>
-                    <div className={style.comicInfo}>
-                        <h3 style={titleStyle}>{comic.comic.title}</h3>
-                        <div className={style.comicChapters}>
+                    ) : (
+                        comic.chapters.slice().map((chapter, index) => (
                             <div
                                 className={style.chapter}
                                 style={{
                                     ...chapterStyle,
-                                    color: '#ffffff',
-                                    marginBottom: '20px'
+                                    color: chapterStatus(chapter)
+                                        ? '#9d9d9d'
+                                        : '#ffffff',
+                                    opacity: chapterStatus(chapter) ? 0.5 : 1
                                 }}
+                                key={index}
                             >
                                 <a
                                     onClick={(e) =>
-                                        handleChapterClick(
-                                            comic.comic,
-                                            chapter,
-                                            e
-                                        )
+                                        handleChapterClick(comic, chapter, e)
                                     }
                                 >
                                     {chapter.title}
@@ -87,72 +99,11 @@ const Comic = ({
                                     {dayjs(chapter.created_at).fromNow()}
                                 </span>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            ) : (
-                <div className={style.comic} onClick={() => handleClick(comic)}>
-                    {onDelete && (
-                        <div
-                            className={style.deleteButton}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                onDelete(comic.id);
-                            }}
-                        >
-                            {isLoading ? (
-                                <LoadingOutlined />
-                            ) : (
-                                <CloseOutlined />
-                            )}
-                        </div>
+                        ))
                     )}
-                    <a className={style.comicBG}>
-                        <img src={comic.cover_image} alt='' />
-                    </a>
-                    <div className={style.comicInfo}>
-                        <h3 style={titleStyle}>{comic.title}</h3>
-                        <div className={style.comicChapters}>
-                            {comic.chapters
-                                .slice()
-                                .reverse()
-                                .map((chapter, index) => (
-                                    <div
-                                        className={style.chapter}
-                                        style={{
-                                            ...chapterStyle,
-                                            color: chapterStatus(chapter)
-                                                ? '#9d9d9d'
-                                                : '#ffffff',
-                                            opacity: chapterStatus(chapter)
-                                                ? 0.5
-                                                : 1
-                                        }}
-                                        key={index}
-                                    >
-                                        <a
-                                            onClick={(e) =>
-                                                handleChapterClick(
-                                                    comic,
-                                                    chapter,
-                                                    e
-                                                )
-                                            }
-                                        >
-                                            {chapter.title}
-                                        </a>
-                                        <span>
-                                            {dayjs(
-                                                chapter.created_at
-                                            ).fromNow()}
-                                        </span>
-                                    </div>
-                                ))}
-                        </div>
-                    </div>
                 </div>
-            )}
-        </>
+            </div>
+        </div>
     );
 };
 

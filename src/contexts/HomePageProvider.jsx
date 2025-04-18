@@ -1,5 +1,4 @@
 import { createContext, useEffect, useState } from 'react';
-import { getAllComic, getAllComicAuth } from '@services/ComicService';
 import { getHomePageFav, getHomePageHistory } from '@services/FavHisService';
 import {
     getTopComicsByDay,
@@ -8,7 +7,7 @@ import {
 } from '@services/StatisticService';
 
 import Cookies from 'js-cookie';
-import { calcView } from '@utils/commonUtils';
+import { getAllComic } from '@services/ComicService';
 
 export const HomePageContext = createContext();
 
@@ -33,6 +32,7 @@ export const HomePageProvider = ({ children }) => {
     const [topComicsByWeek, setTopComicsByWeek] = useState([]);
     const [topComicsByDay, setTopComicsByDay] = useState([]);
     const [isTopComicsLoading, setIsTopComicsLoading] = useState(false);
+
     const isAuthenticated = !!Cookies.get('token');
 
     const fetchTopComicsByMonth = () => {
@@ -40,12 +40,6 @@ export const HomePageProvider = ({ children }) => {
         getTopComicsByMonth()
             .then((res) => {
                 const data = res.data.data;
-                data.forEach((item) => {
-                    item.view = item.view_count;
-
-                    item.isFavorite =
-                        item.favorites && item.favorites.length > 0;
-                });
                 setTopComicsByMonth(data);
             })
             .catch((err) => {
@@ -61,12 +55,6 @@ export const HomePageProvider = ({ children }) => {
         getTopComicsByWeek()
             .then((res) => {
                 const data = res.data.data;
-                data.forEach((item) => {
-                    item.view = item.view_count;
-
-                    item.isFavorite =
-                        item.favorites && item.favorites.length > 0;
-                });
                 setTopComicsByWeek(data);
             })
             .catch((err) => {
@@ -82,12 +70,6 @@ export const HomePageProvider = ({ children }) => {
         getTopComicsByDay()
             .then((res) => {
                 const data = res.data.data;
-                data.forEach((item) => {
-                    item.view = item.view_count;
-
-                    item.isFavorite =
-                        item.favorites && item.favorites.length > 0;
-                });
                 setTopComicsByDay(data);
             })
             .catch((err) => {
@@ -105,59 +87,35 @@ export const HomePageProvider = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        if (isAuthenticated) {
-            getAllComicAuth()
-                .then((res) => {
-                    const data = res.data.data;
-                    data.forEach((item) => {
-                        item.view = calcView(item.statistics);
-
-                        item.isFavorite =
-                            item.favorites && item.favorites.length > 0;
-                    });
-                    setRecommendComics(data);
-                })
-                .catch((err) => {
-                    console.log('API error:', err);
-                });
-        } else {
-            getAllComic()
-                .then((res) => {
-                    const data = res.data.data;
-                    setRecommendComics(data);
-                })
-                .catch((err) => {
-                    console.log('API error:', err);
-                });
-        }
-    }, [isAuthenticated]);
+        getAllComic()
+            .then((res) => {
+                const data = res.data.data;
+                setRecommendComics(data);
+            })
+            .catch((err) => {
+                console.log('API error:', err);
+            });
+    }, []);
 
     const fetchFavoriteComics = () => {
-        if (isAuthenticated) {
-            setIsFavLoading(true);
-            getHomePageFav()
-                .then((res) => {
-                    const data = res.data.data.slice(0, 6);
-                    data.forEach((item) => {
-                        item.comic.view = calcView(item.comic.statistics);
-
-                        item.comic.isFavorite =
-                            item.comic.favorites &&
-                            item.comic.favorites.length > 0;
-                    });
-                    setFavoriteComics(data);
-                })
-                .catch((err) => {
-                    console.log('API error:', err);
-                })
-                .finally(() => {
-                    setIsFavLoading(false);
-                });
-        }
+        setIsFavLoading(true);
+        getHomePageFav()
+            .then((res) => {
+                const data = res.data.data.slice(0, 6);
+                setFavoriteComics(data);
+            })
+            .catch((err) => {
+                console.log('API error:', err);
+            })
+            .finally(() => {
+                setIsFavLoading(false);
+            });
     };
 
     useEffect(() => {
-        fetchFavoriteComics();
+        if (isAuthenticated) {
+            fetchFavoriteComics();
+        }
     }, [isAuthenticated]);
 
     const fetchHistoryComics = () => {
@@ -166,13 +124,6 @@ export const HomePageProvider = ({ children }) => {
             getHomePageHistory()
                 .then((res) => {
                     const data = res.data.data.slice(0, 6);
-                    data.forEach((item) => {
-                        item.comic.view = calcView(item.comic.statistics);
-
-                        item.comic.isFavorite =
-                            item.comic.favorites &&
-                            item.comic.favorites.length > 0;
-                    });
                     setHistoryComics(data);
                 })
                 .catch((err) => {

@@ -1,13 +1,12 @@
 import { createContext, useEffect, useState } from 'react';
 
-import { calcView } from '@utils/commonUtils';
 import { getHistoryList } from '@services/FavHisService';
 import { useParams } from 'react-router-dom';
 
 export const HistoryContext = createContext();
 
 export const HistoryProvider = ({ children }) => {
-    const [comics, setComics] = useState([]);
+    const [data, setData] = useState([]);
     const [pagination, setPagination] = useState({
         current_page: 1,
         last_page: 1,
@@ -22,14 +21,8 @@ export const HistoryProvider = ({ children }) => {
     const fetchComics = (newPage = 1) => {
         getHistoryList(newPage)
             .then((res) => {
-                const data = res.data.data.data;
-                data.forEach((item) => {
-                    item.comic.view = calcView(item.comic.statistics);
-
-                    item.comic.isFavorite =
-                        item.comic.favorites && item.comic.favorites.length > 0;
-                });
-                setComics(data);
+                const data = res.data.data;
+                setData(data);
                 setPagination(res.data.pagination);
             })
             .catch((err) => {
@@ -43,7 +36,7 @@ export const HistoryProvider = ({ children }) => {
     }, [page]);
 
     return (
-        <HistoryContext.Provider value={{ comics, pagination, fetchComics }}>
+        <HistoryContext.Provider value={{ data, pagination, fetchComics }}>
             {children}
         </HistoryContext.Provider>
     );

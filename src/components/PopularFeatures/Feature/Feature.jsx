@@ -44,15 +44,11 @@ const Feature = ({ title, href }) => {
                                 : 'Bạn chưa đọc truyện nào'}
                         </div>
                     ) : (
-                        comics.map((data) => (
+                        comics.map((item) => (
                             <Comic
-                                key={data.id}
-                                comic={data.comic}
-                                chapter={
-                                    title === 'Truyện Yêu Thích'
-                                        ? data.comic.chapters
-                                        : data.chapter
-                                }
+                                key={item.id}
+                                comic={item.comic}
+                                historyChapter={item.chapter}
                             />
                         ))
                     )}

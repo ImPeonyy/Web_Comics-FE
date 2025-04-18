@@ -1,21 +1,26 @@
 import { useContext, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import ComicContainer from '@components/ComicContainer/ComicContainer';
+import EmptyContent from '@components/EmptyContent/EmptyContent';
 import { FavoritesContext } from '@contexts/FavoritesProvider';
 import Pagination from '@components/Pagination/Pagination';
 import { removeFav } from '@services/FavHisService';
 import style from './style.module.scss';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
 
 const Favorites = () => {
     const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useSearchParams();
 
-    const { comics, pagination, fetchComics } = useContext(FavoritesContext);
+    const { data, pagination, fetchComics } = useContext(FavoritesContext);
     const [deletingComicId, setDeletingComicId] = useState(null);
 
+    const comics = data.map((item) => item.comic);
+
     const handlePageChange = (newPage) => {
+        setSearchParams({ page: newPage });
         fetchComics(newPage);
     };
 
@@ -24,7 +29,13 @@ const Favorites = () => {
         removeFav(comicId)
             .then(() => {
                 toast.success('Đã xóa truyện khỏi danh sách yêu thích');
-                fetchComics(pagination.current_page);
+                if (comics.length === 1 && pagination.current_page > 1) {
+                    const prevPage = pagination.current_page - 1;
+                    setSearchParams({ page: prevPage });
+                    fetchComics(prevPage);
+                } else {
+                    fetchComics(pagination.current_page);
+                }
             })
             .catch((error) => {
                 toast.error(error.response.data.message);
@@ -57,8 +68,8 @@ const Favorites = () => {
                             deletingComicId={deletingComicId}
                         />
                     ) : (
-                        <div className={style.noComics}>
-                            Không có truyện yêu thích
+                        <div className={style.emptyContent}>
+                            <EmptyContent content='Không có truyện yêu thích' />
                         </div>
                     )}
                 </div>

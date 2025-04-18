@@ -4,7 +4,7 @@ const getFavList = async (page = 1) => {
     return await axiosClient.get(`/favorites/my-favorites`, {
         params: {
             page,
-            per_page: 10
+            per_page: 2
         }
     });
 };
@@ -25,7 +25,7 @@ const getHistoryList = async (page = 1) => {
     return await axiosClient.get('/history/my-history', {
         params: {
             page,
-            per_page: 10
+            per_page: 12
         }
     });
 };

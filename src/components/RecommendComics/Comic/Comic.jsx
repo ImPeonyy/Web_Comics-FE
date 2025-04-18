@@ -15,7 +15,7 @@ import { toast } from 'react-toastify';
 const Comic = ({ comic }) => {
     const { setIsComicDetailOpen, setComicDetail } =
         useContext(ComicDetailContext);
-    const [isFavorite, setIsFavorite] = useState(comic.isFavorite);
+    const [isFavorite, setIsFavorite] = useState(comic.isFav);
     const [isFavLoading, setIsFavLoading] = useState(false);
 
     const handleClick = () => {
@@ -78,7 +78,7 @@ const Comic = ({ comic }) => {
                     <div className={style.actions}>
                         <div className={style.actionView}>
                             <EyeOutlined />
-                            <span>{comic.view}</span>
+                            <span>{comic.totalViews}</span>
                         </div>
                         <div
                             className={style.actionHeart}

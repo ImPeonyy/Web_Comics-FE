@@ -12,7 +12,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ComicDetailContext } from '@contexts/ComicDetailProvider';
 import LoadingComponent from '@components/Loading/LoadingComponent/LoadingComponent';
 import { ReadComicContext } from '@contexts/ReadComicProvider';
-import { calcView } from '@utils/commonUtils';
 import { increaseView } from '@services/StatisticService';
 import style from './style.module.scss';
 
@@ -59,15 +58,14 @@ const ReadComic = () => {
         if (comicSlug && chapterSlug) {
             setIsLoading(true);
             const comicId = deslugify(comicSlug);
+
             getComicById(comicId)
                 .then((res) => {
                     const data = res.data.data;
-                    data.view = calcView(data.statistics);
-                    data.isFavorite =
-                        data.favorites && data.favorites.length > 0;
                     setComic(data);
                 })
                 .catch((err) => console.log(err));
+
             getChapterList(comicId)
                 .then((res) => {
                     setChapters(res.data);
