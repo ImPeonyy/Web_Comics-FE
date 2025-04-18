@@ -5,7 +5,13 @@ const axiosClient = axios.create({
     baseURL: 'https://webcomics-be.fwh.is/api',
     timeout: 10000,
     headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods':
+            'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Expose-Headers': 'Content-Range, X-Content-Range'
     }
 });
 
