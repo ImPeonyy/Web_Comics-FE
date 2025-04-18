@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 
 const axiosClient = axios.create({
-    baseURL: 'http://webcomics-be.fwh.is/api',
+    baseURL: 'https://webcomics-be.fwh.is/api',
     timeout: 10000,
     headers: {
         'Content-Type': 'application/json'
