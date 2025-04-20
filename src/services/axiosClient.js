@@ -6,7 +6,7 @@ const axiosClient = axios.create({
     timeout: 10000,
     headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': 'https://webcomics-be.fwh.is',
         'Access-Control-Allow-Methods':
             'GET, POST, PUT, DELETE, PATCH, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
