@@ -28,13 +28,11 @@
 
 .commentLevel {
     display: inline-block;
-    animation: gradientShift 3s linear infinite;
     border: 1px solid $primaryColor;
     border-radius: 5px;
     background-size: 200% 100%;
     padding: 5px 3px;
     width: 100%;
-    color: $primaryColor;
     font-weight: 600;
     font-size: 0.6rem;
     text-align: center;

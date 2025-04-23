@@ -1,7 +1,7 @@
 import { CloseOutlined, LoadingOutlined } from '@ant-design/icons';
 
 import { ComicDetailContext } from '@contexts/ComicDetailProvider';
-import { chapterStatus } from '@utils/commonUtils';
+import { StoreContext } from '@contexts/StoreProvider';
 import dayjs from 'dayjs';
 import { slugify } from '@utils/slugifyUtils';
 import style from './style.module.scss';
@@ -18,6 +18,7 @@ const Comic = ({
 }) => {
     const { setComicDetail, setIsComicDetailOpen } =
         useContext(ComicDetailContext);
+    const { chapterStatus } = useContext(StoreContext);
 
     const navigate = useNavigate();
 

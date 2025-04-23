@@ -7,7 +7,8 @@ import {
 } from '@services/StatisticService';
 
 import Cookies from 'js-cookie';
-import { getAllComic } from '@services/ComicService';
+import { getAllComics } from '@services/ComicService';
+import { useParams } from 'react-router-dom';
 
 export const HomePageContext = createContext();
 
@@ -25,6 +26,8 @@ const statistic = [
 export const HomePageProvider = ({ children }) => {
     const [recommendComics, setRecommendComics] = useState([]);
     const [favoriteComics, setFavoriteComics] = useState([]);
+    const [allComics, setAllComics] = useState([]);
+    const [isAllComicsLoading, setIsAllComicsLoading] = useState(false);
     const [isFavLoading, setIsFavLoading] = useState(false);
     const [historyComics, setHistoryComics] = useState([]);
     const [isHistoryLoading, setIsHistoryLoading] = useState(false);
@@ -32,8 +35,27 @@ export const HomePageProvider = ({ children }) => {
     const [topComicsByWeek, setTopComicsByWeek] = useState([]);
     const [topComicsByDay, setTopComicsByDay] = useState([]);
     const [isTopComicsLoading, setIsTopComicsLoading] = useState(false);
+    const [pagination, setPagination] = useState({
+        current_page: 1,
+        last_page: 1,
+        per_page: 10,
+        total: 0,
+        from: 0,
+        to: 0
+    });
 
     const isAuthenticated = !!Cookies.get('token');
+
+    useEffect(() => {
+        getTopComicsByMonth()
+            .then((res) => {
+                const data = res.data.data;
+                setRecommendComics(data);
+            })
+            .catch((err) => {
+                console.log('API error:', err);
+            });
+    }, []);
 
     const fetchTopComicsByMonth = () => {
         setIsTopComicsLoading(true);
@@ -86,16 +108,27 @@ export const HomePageProvider = ({ children }) => {
         fetchTopComicsByDay();
     }, []);
 
-    useEffect(() => {
-        getAllComic()
+    const { page } = useParams();
+
+    const fetchAllComics = (newPage = 1) => {
+        setIsAllComicsLoading(true);
+        getAllComics(newPage)
             .then((res) => {
-                const data = res.data.data;
-                setRecommendComics(data);
+                setPagination(res.data.pagination);
+                setAllComics(res.data.data);
             })
             .catch((err) => {
                 console.log('API error:', err);
+            })
+            .finally(() => {
+                setIsAllComicsLoading(false);
             });
-    }, []);
+    };
+
+    useEffect(() => {
+        const currentPage = page ? parseInt(page) : 1;
+        fetchAllComics(currentPage);
+    }, [page]);
 
     const fetchFavoriteComics = () => {
         setIsFavLoading(true);
@@ -142,6 +175,8 @@ export const HomePageProvider = ({ children }) => {
     const values = {
         recommendComics,
         favoriteComics,
+        allComics,
+        isAllComicsLoading,
         isFavLoading,
         historyComics,
         isHistoryLoading,
@@ -153,7 +188,9 @@ export const HomePageProvider = ({ children }) => {
         isTopComicsLoading,
         fetchTopComicsByMonth,
         fetchTopComicsByWeek,
-        fetchTopComicsByDay
+        fetchTopComicsByDay,
+        pagination,
+        fetchAllComics
     };
 
     return (

@@ -1,5 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { privateRouters, publicRouters } from './routers.js';
+import { adminRouters, privateRouters, publicRouters } from './routers.js';
 
 import AuthForm from '@components/AuthForm/AuthForm';
 import { AuthFormProvider } from '@/contexts/AuthFormProvider';
@@ -13,6 +13,7 @@ import { ToastProvider } from '@/contexts/ToastProvider';
 
 function App() {
     const isAuthenticated = !!Cookies.get('token');
+    const isAdmin = Cookies.get('role') === 'admin';
 
     return (
         <ToastProvider>
@@ -50,6 +51,26 @@ function App() {
                                                         )
                                                     }
                                                     key={`private-${index}`}
+                                                />
+                                            );
+                                        })}
+                                        {adminRouters.map((item, index) => {
+                                            return (
+                                                <Route
+                                                    path={item.path}
+                                                    element={
+                                                        isAuthenticated &&
+                                                        isAdmin &&
+                                                        item.isAdmin ? (
+                                                            <item.component />
+                                                        ) : (
+                                                            <Navigate
+                                                                to='/'
+                                                                replace
+                                                            />
+                                                        )
+                                                    }
+                                                    key={`admin-${index}`}
                                                 />
                                             );
                                         })}

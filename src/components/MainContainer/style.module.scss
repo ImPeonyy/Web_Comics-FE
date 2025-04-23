@@ -1,2 +1,17 @@
 @use '@styles/main.scss';
 @use '@styles/variable.module' as *;
+
+.container {
+    margin-top: 20px;
+}
+
+.title {
+    color: $primaryColor;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30vh;
+}

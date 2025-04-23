@@ -36,4 +36,13 @@ const privateRouters = [
     }
 ];
 
-export { publicRouters, privateRouters };
+const adminRouters = [
+    {
+        path: '/admin/dashboard',
+        component: lazy(() => import('@pages/Admin/DashboardPage')),
+        isPrivate: true,
+        isAdmin: true
+    }
+];
+
+export { publicRouters, privateRouters, adminRouters };

@@ -89,7 +89,7 @@
     }
 
     &:focus-within {
-        border: 1px solid $primaryColor;
+        border: 2px solid $primaryColor;
         background-color: $mainBGC;
     }
 }
@@ -271,11 +271,6 @@
     background-color: $sub2BGC;
     width: 32px;
     height: 30px;
-
-    @media (max-width: 768px) {
-        width: 28px;
-        height: 26px;
-    }
 }
 
 .headerUser > div:hover {

@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 
 import Cookies from 'js-cookie';
 import { ToastContext } from '@/contexts/ToastProvider';
+import { getChaptersHistory } from '@services/FavHisService';
 import { getGenres } from '@services/ComicService';
 import { getMyInfo } from '@services/UserService';
 
@@ -17,6 +18,28 @@ export const StoreContext = createContext();
 export const StoreProvider = ({ children }) => {
     const [myInfo, setMyInfo] = useState(null);
     const [genres, setGenres] = useState([]);
+    const [chaptersHistory, setChaptersHistory] = useState([]);
+
+    const fetchChaptersHistory = () => {
+        getChaptersHistory()
+            .then((res) => {
+                setChaptersHistory(res.data.history);
+            })
+            .catch((err) => {
+                toast.error(err);
+            });
+    };
+
+    useEffect(() => {
+        fetchChaptersHistory();
+    }, []);
+
+    const chapterStatus = (chapter) => {
+        const chapterHistory = chaptersHistory.find(
+            (item) => item.chapter_id === chapter.id
+        );
+        return chapterHistory ? true : false;
+    };
 
     const userID = Cookies.get('userID');
     const { toast } = useContext(ToastContext);
@@ -46,7 +69,15 @@ export const StoreProvider = ({ children }) => {
 
     return (
         <StoreContext.Provider
-            value={{ myInfo, genres, fetchMyInfo, dataMenu }}
+            value={{
+                myInfo,
+                genres,
+                fetchMyInfo,
+                dataMenu,
+                chaptersHistory,
+                fetchChaptersHistory,
+                chapterStatus
+            }}
         >
             {children}
         </StoreContext.Provider>

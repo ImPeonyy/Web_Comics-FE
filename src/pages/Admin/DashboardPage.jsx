@@ -1,19 +1,19 @@
+import Dashboard from '@components/Admin/Dashboard/Dashboard';
+import { DashboardProvider } from '@contexts/DashboardProvider';
 import Footer from '@components/Common/Footer/Footer.jsx';
 import Header from '@components/Common/Header/Header.jsx';
-import { LevelsProvider } from '@contexts/LevelsProvider';
 import MainLayout from '@layouts/MainLayout/MainLayout.jsx';
-import MyInfo from '@components/MyInfo/MyInfo';
 
-export const MyInfoPage = () => {
+const DashboardPage = () => {
     return (
-        <LevelsProvider>
+        <DashboardProvider>
             <MainLayout>
                 <Header />
-                <MyInfo />
+                <Dashboard />
                 <Footer />
             </MainLayout>
-        </LevelsProvider>
+        </DashboardProvider>
     );
 };
 
-export default MyInfoPage;
+export default DashboardPage;

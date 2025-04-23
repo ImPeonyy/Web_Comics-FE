@@ -1,8 +1,10 @@
-import { chapterStatus } from '@utils/commonUtils';
+import { StoreContext } from '@contexts/StoreProvider';
 import dayjs from 'dayjs';
 import style from './style.module.scss';
+import { useContext } from 'react';
 
 const Chapter = ({ chapter, onClick }) => {
+    const { chapterStatus } = useContext(StoreContext);
     return (
         <div
             onClick={onClick}

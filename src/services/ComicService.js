@@ -1,6 +1,6 @@
 import axiosClient from '@services/axiosClient';
 
-const getAllComic = async (page = 1) => {
+const getAllComics = async (page = 1) => {
     return await axiosClient.get(`/comics`, {
         params: {
             page,
@@ -62,8 +62,20 @@ const searchComics = async (keyword) => {
     });
 };
 
+const getAllComicsByAdmin = async () => {
+    return await axiosClient.get('/admin/all-comics');
+};
+
+const updateComic = async (comicId, comic) => {
+    return await axiosClient.put(`/admin/update-comic/${comicId}`, comic);
+};
+
+const deleteComic = async (comicId) => {
+    return await axiosClient.delete(`/admin/delete-comic/${comicId}`);
+};
+
 export {
-    getAllComic,
+    getAllComics,
     getComicById,
     getGenres,
     getChapterList,
@@ -72,5 +84,8 @@ export {
     postComment,
     filterComic,
     getRandomComic,
-    searchComics
+    searchComics,
+    getAllComicsByAdmin,
+    updateComic,
+    deleteComic
 };

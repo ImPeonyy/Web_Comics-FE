@@ -28,10 +28,6 @@
     min-height: 676.6px;
     color: $mainTextColor;
 
-    @media (max-width: 1024px) {
-        min-height: 600px;
-    }
-
     @media (max-width: 768px) {
         min-height: 500px;
     }
@@ -72,7 +68,6 @@
 
     @media (max-width: 768px) {
         gap: 15px;
-        background-color: $mainBGC;
         padding: 20px 10px 10px 10px;
     }
 

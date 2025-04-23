@@ -2,8 +2,8 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 
 const axiosClient = axios.create({
-    baseURL: 'https://webcomics-be.fwh.is/api',
-    timeout: 10000,
+    baseURL: 'http://localhost:8000/api',
+    timeout: 20000,
     headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': 'https://webcomics-be.fwh.is',

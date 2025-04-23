@@ -12,6 +12,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ComicDetailContext } from '@contexts/ComicDetailProvider';
 import LoadingComponent from '@components/Loading/LoadingComponent/LoadingComponent';
 import { ReadComicContext } from '@contexts/ReadComicProvider';
+import { increaseExp } from '@services/UserService';
 import { increaseView } from '@services/StatisticService';
 import style from './style.module.scss';
 
@@ -107,9 +108,13 @@ const ReadComic = () => {
                             );
                             // Log khi ảnh cuối xuất hiện
                             if (index === images.length - 1) {
-                                increaseView(comic.id).catch((err) =>
-                                    console.log(err)
-                                );
+                                increaseView(comic.id)
+                                    .then(() =>
+                                        increaseExp().catch((err) =>
+                                            console.log(err)
+                                        )
+                                    )
+                                    .catch((err) => console.log(err));
                             }
                         }
                     }

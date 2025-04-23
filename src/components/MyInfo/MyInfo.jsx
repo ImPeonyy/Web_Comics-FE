@@ -1,4 +1,5 @@
 import { ConfigProvider, Tabs } from 'antd';
+import { useEffect, useState } from 'react';
 
 import ChangePassword from '@components/MyInfo/ChangePassword/ChangePassword';
 import Info from '@components/MyInfo/Info/Info';
@@ -6,6 +7,25 @@ import style from './style.module.scss';
 import { tabs } from './constants';
 
 const MyInfo = () => {
+    const [tabPosition, setTabPosition] = useState('left');
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth <= 1024) {
+                setTabPosition('top');
+            } else {
+                setTabPosition('left');
+            }
+        };
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     return (
         <section className={style.myInfo}>
             <div className={style.container}>
@@ -28,7 +48,7 @@ const MyInfo = () => {
                         <Tabs
                             animated={{ inkBar: true, tabPane: true }}
                             size='large'
-                            tabPosition={'left'}
+                            tabPosition={tabPosition}
                             items={tabs.map((item, index) => {
                                 return {
                                     label: item.title,

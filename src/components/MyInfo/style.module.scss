@@ -52,3 +52,128 @@
     padding: 50px 50px !important;
     height: 100%;
 }
+
+// Responsive styles
+@media screen and (max-width: 1300px) {
+    .myInfo {
+        height: auto;
+        min-height: 700px;
+    }
+
+    .tabsContainer {
+        margin: 0px 20px !important;
+        padding: 20px 20px !important;
+    }
+
+    :global {
+        .ant-tabs.ant-tabs-left.ant-tabs-large.css-dev-only-do-not-override-1wej6qc,
+        .ant-tabs.ant-tabs-top.ant-tabs-large.css-dev-only-do-not-override-1wej6qc {
+            height: auto;
+        }
+
+        .ant-tabs-nav {
+            min-width: 195px !important;
+        }
+
+        .ant-tabs-tab {
+            margin: 0 16px !important;
+            padding: 12px !important;
+            font-size: medium !important;
+        }
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .myInfo {
+        height: auto;
+        min-height: 700px;
+    }
+
+    .tabsContainer {
+        margin: 0px 20px !important;
+        padding: 20px 20px !important;
+    }
+
+    :global {
+        .ant-tabs.ant-tabs-left.ant-tabs-large.css-dev-only-do-not-override-1wej6qc,
+        .ant-tabs.ant-tabs-top.ant-tabs-large.css-dev-only-do-not-override-1wej6qc {
+            height: auto;
+        }
+
+        .ant-tabs-nav {
+            width: 100% !important;
+        }
+
+        .ant-tabs-tab {
+            margin: 0 16px !important;
+            padding: 12px 0 !important;
+            font-size: medium !important;
+        }
+
+        .ant-tabs-tab.ant-tabs-tab-active {
+            border-bottom: 3px solid $primaryColor !important;
+            border-left: none !important;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .myInfo {
+        height: auto;
+        min-height: 700px;
+    }
+
+    .tabsContainer {
+        margin: 0px 20px !important;
+        padding: 20px 20px !important;
+    }
+
+    :global {
+        .ant-tabs.ant-tabs-left.ant-tabs-large.css-dev-only-do-not-override-1wej6qc,
+        .ant-tabs.ant-tabs-top.ant-tabs-large.css-dev-only-do-not-override-1wej6qc {
+            height: auto;
+        }
+
+        .ant-tabs-nav {
+            width: 100% !important;
+        }
+
+        .ant-tabs-tab {
+            margin: 0 16px !important;
+            padding: 12px 0 !important;
+            font-size: medium !important;
+        }
+
+        .ant-tabs-tab.ant-tabs-tab-active {
+            border-bottom: 3px solid $primaryColor !important;
+            border-left: none !important;
+        }
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .myInfo {
+        margin-top: 80px;
+    }
+
+    .tabsContainer {
+        margin: 0px 10px !important;
+        padding: 15px 15px !important;
+    }
+
+    :global {
+        .ant-tabs-nav {
+            width: 100% !important;
+        }
+
+        .ant-tabs-tab {
+            margin: 0 12px !important;
+            padding: 8px 0 !important;
+            font-size: small !important;
+        }
+
+        .ant-tabs-content {
+            padding-left: 10px !important;
+        }
+    }
+}
