@@ -10,24 +10,154 @@
     width: 100%;
 }
 
-.footerInfo {
-    width: calc(100% / 4);
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 0 20px;
+    width: 100%;
+}
+
+.webInfo {
+    width: calc(100% / 3);
     color: $mainTextColor;
 }
 
-.footerLogo img {
+.webLogo img {
     width: 200px;
     height: 100px;
     object-fit: none;
 }
 
-.footerDes {
+.webDes {
     font-size: small;
 }
 
-.footerDes a {
+.webDes a {
     color: $primaryColor;
     font-weight: 500;
     font-size: 1rem;
     text-decoration: none;
+}
+
+.webCopyright {
+    margin-top: 15px;
+}
+
+.aboutMe {
+    color: $mainTextColor;
+
+    > h4 {
+        color: $primaryColor;
+        font-size: 1.2rem;
+    }
+}
+
+.aboutMeContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .aboutMeItem {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        color: $mainTextColor;
+
+        > .aboutMeIcon {
+            font-size: 1.2rem;
+        }
+
+        > a {
+            color: $primaryColor;
+            text-decoration: none;
+        }
+    }
+}
+
+.contactInfo {
+    color: $mainTextColor;
+
+    > h4 {
+        color: $primaryColor;
+        font-size: 1.2rem;
+    }
+}
+
+.contactInfoContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .contactInfoItem {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+    }
+}
+
+// Responsive styles
+@media screen and (max-width: 1024px) {
+    .container {
+        flex-wrap: wrap;
+        gap: 30px;
+    }
+
+    .webInfo {
+        width: 100%;
+        text-align: center;
+    }
+
+    .aboutMe,
+    .contactInfo {
+        width: 45%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .webInfo,
+    .aboutMe,
+    .contactInfo {
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .webLogo {
+        display: flex;
+        justify-content: center;
+    }
+
+    .aboutMeContainer .aboutMeItem,
+    .contactInfoContainer .contactInfoItem {
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .webLogo img {
+        width: 150px;
+        height: 75px;
+    }
+
+    .webDes {
+        font-size: 0.8rem;
+    }
+
+    .aboutMe > h4,
+    .contactInfo > h4 {
+        font-size: 1rem;
+    }
+
+    .aboutMeContainer .aboutMeItem,
+    .contactInfoContainer .contactInfoItem {
+        font-size: 0.9rem;
+    }
 }

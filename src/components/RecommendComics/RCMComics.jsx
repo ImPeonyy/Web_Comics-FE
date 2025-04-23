@@ -29,10 +29,10 @@ const RCMComics = () => {
             }}
         >
             <Carousel
-                autoplay={{
-                    dotDuration: true
-                }}
-                autoplaySpeed={5000}
+                // autoplay={{
+                //     dotDuration: true
+                // }}
+                // autoplaySpeed={5000}
                 arrows
                 infinite={true}
                 draggable={true}

@@ -2,6 +2,7 @@ import { calcCurrentLevel, calcNextLevel } from '@utils/calcLevelUtils';
 import { createContext, useContext, useEffect, useState } from 'react';
 
 import { StoreContext } from '@contexts/StoreProvider';
+import { getExp } from '@services/UserService';
 
 export const LevelsContext = createContext();
 
@@ -9,9 +10,17 @@ export const LevelsProvider = ({ children }) => {
     const { myInfo } = useContext(StoreContext);
     const [exp, setExp] = useState(0);
 
+    const fetchExp = () => {
+        getExp()
+            .then((res) => {
+                setExp(res.data);
+            })
+            .catch((err) => console.log(err));
+    };
+
     useEffect(() => {
-        if (myInfo?.exp !== undefined) {
-            setExp(myInfo.exp);
+        if (myInfo) {
+            fetchExp();
         }
     }, [myInfo]);
 

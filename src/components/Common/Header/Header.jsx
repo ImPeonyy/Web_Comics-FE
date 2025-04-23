@@ -36,6 +36,7 @@ const Header = () => {
     const [isSearchFocused, setIsSearchFocused] = useState(false);
     const [debouncedSearch, setDebouncedSearch] = useState('');
     const [isSearching, setIsSearching] = useState(false);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const location = useLocation();
 
     const { setIsAuthFormOpen } = useContext(AuthFormContext);
@@ -68,7 +69,13 @@ const Header = () => {
     };
 
     const handleUserHover = () => {
-        if (myInfo) {
+        if (myInfo && !isMobile) {
+            setIsShowUserSubMenu(!isShowUserSubMenu);
+        }
+    };
+
+    const handleUserClick = () => {
+        if (myInfo && isMobile) {
             setIsShowUserSubMenu(!isShowUserSubMenu);
         }
     };
@@ -97,7 +104,11 @@ const Header = () => {
 
     const handleMyInfo = (e) => {
         e.stopPropagation();
-        navigate('/my-info');
+        if (myInfo?.role === 'admin') {
+            navigate('/admin/dashboard');
+        } else {
+            navigate('/my-info');
+        }
     };
 
     const handleHistory = (e) => {
@@ -115,7 +126,11 @@ const Header = () => {
     };
 
     const handleFilterClick = () => {
-        navigate('/filter-comics');
+        if (searchQuery.trim() !== '') {
+            navigate(`/filter-comics?keyword=${searchQuery}`);
+        } else {
+            navigate('/filter-comics');
+        }
     };
 
     useEffect(() => {
@@ -162,6 +177,15 @@ const Header = () => {
                 setIsSearching(false);
             });
     }, [debouncedSearch]);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const isReadComicPage = location.pathname.startsWith('/read-comic');
 
@@ -317,7 +341,10 @@ const Header = () => {
                     </div>
                     <div
                         className={style.userIcon}
-                        onClick={handleOpenAuthForm}
+                        onClick={() => {
+                            handleOpenAuthForm();
+                            handleUserClick();
+                        }}
                         onMouseEnter={handleUserHover}
                         onMouseLeave={handleUserHover}
                     >

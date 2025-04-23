@@ -42,6 +42,18 @@
     position: relative;
     cursor: pointer;
     height: 280px;
+
+    @media (max-width: 1200px) {
+        height: 250px;
+    }
+
+    @media (max-width: 768px) {
+        height: 220px;
+    }
+
+    @media (max-width: 480px) {
+        height: 280px;
+    }
 }
 
 .background {
@@ -76,6 +88,23 @@
     position: relative;
     z-index: 3;
     padding-top: 100px;
+    padding-right: 15px;
+    padding-left: 15px;
+    width: 100%;
+
+    @media (max-width: 1200px) {
+        padding-top: 80px;
+    }
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: center;
+        padding-top: 40px;
+    }
+}
+
+.itemCoverImage {
+    flex-shrink: 0;
 }
 
 .itemCoverImage img {
@@ -84,17 +113,39 @@
     width: 250px;
     height: 320px;
     object-fit: cover;
+
+    @media (max-width: 1200px) {
+        width: 200px;
+        height: 280px;
+    }
+
+    @media (max-width: 768px) {
+        margin-top: 15px;
+        margin-left: 0;
+        width: 150px;
+        height: 200px;
+    }
 }
 
 .comicDetailContainer {
     background-color: $mainBGC;
     padding: 15px 0px;
+
+    @media (max-width: 768px) {
+        padding-top: 200px;
+    }
 }
 
 .comicInfo {
     position: relative;
     margin: 10px 30px 0px 30px !important;
     width: 100%;
+    min-width: 0;
+
+    @media (max-width: 768px) {
+        margin: 20px 15px 0px 15px !important;
+        text-align: center;
+    }
 }
 
 .comicInfo > h1 {
@@ -106,11 +157,16 @@
     font-size: 2rem !important;
     line-height: 1.25;
     -webkit-box-orient: vertical;
+    min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
 
-    @media (max-width: 1024px) {
-        font-size: 10px;
+    @media (max-width: 1200px) {
+        font-size: 1.8rem !important;
+    }
+
+    @media (max-width: 768px) {
+        font-size: 1.2rem !important;
     }
 }
 
@@ -118,6 +174,12 @@
     position: absolute;
     bottom: 55px;
     color: $mainTextColor;
+
+    @media (max-width: 768px) {
+        position: relative;
+        bottom: auto;
+        margin-top: 10px;
+    }
 }
 
 .genresList {
@@ -127,6 +189,14 @@
     gap: 5px;
     margin: 15px 0px;
     color: $mainTextColor;
+
+    @media (max-width: 768px) {
+        position: relative;
+        bottom: auto;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 15px;
+    }
 }
 
 .desciption {
@@ -137,6 +207,16 @@
     overflow: hidden;
     font-size: large;
     text-overflow: ellipsis;
+
+    @media (max-width: 1200px) {
+        -webkit-line-clamp: 3;
+        font-size: medium;
+    }
+
+    @media (max-width: 768px) {
+        -webkit-line-clamp: 2;
+        font-size: x-small;
+    }
 }
 
 .actionsContainer {
@@ -144,10 +224,24 @@
     flex-direction: column;
     gap: 13px;
     margin-left: 313px;
+
+    @media (max-width: 1200px) {
+        margin-left: 250px;
+    }
+
+    @media (max-width: 768px) {
+        align-items: center;
+        margin-left: 0;
+    }
 }
 
 .actions {
     display: flex;
+
+    @media (max-width: 768px) {
+        align-items: center;
+        gap: 10px;
+    }
 }
 
 .actions > button {
@@ -163,6 +257,11 @@
     width: 170px;
     height: 35px;
     font-weight: bold;
+
+    @media (max-width: 768px) {
+        margin-right: 0;
+        width: 150px;
+    }
 
     &:hover {
         opacity: 0.8;
@@ -183,6 +282,10 @@
     height: 35px;
     font-weight: bold;
 
+    @media (max-width: 768px) {
+        width: 200px;
+    }
+
     &:hover {
         opacity: 0.8;
     }
@@ -197,6 +300,11 @@
     display: flex;
     gap: 15px;
     color: $mainTextColor;
+
+    @media (max-width: 768px) {
+        align-items: center;
+        gap: 10px;
+    }
 }
 
 .view,
@@ -216,6 +324,17 @@
     padding: 50px;
     width: 95%;
     height: 700px;
+
+    @media (max-width: 1200px) {
+        padding: 30px;
+        height: 600px;
+    }
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        padding: 20px;
+        height: auto;
+    }
 }
 
 .chapterContainer {
@@ -224,6 +343,10 @@
     gap: 10px;
     width: 60%;
     height: 100%;
+
+    @media (max-width: 768px) {
+        width: 100%;
+    }
 }
 
 .description {
@@ -259,6 +382,13 @@
     border-left: 1px solid $primaryColor;
     padding-left: 20px;
     color: $subTextColor;
+
+    @media (max-width: 768px) {
+        border-top: 1px solid $primaryColor;
+        border-left: none;
+        padding-top: 20px;
+        padding-left: 0;
+    }
 }
 
 .commentHeader {
@@ -311,14 +441,29 @@
 
 .commentList {
     display: flex;
+    position: relative;
     flex-direction: column;
     gap: 15px;
     padding: 5px 0px;
     padding-right: 5px;
     width: 100%;
     min-height: 200px;
+    max-height: 500px;
     overflow: hidden;
     overflow-y: auto;
+
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 5px;
+        background: $primaryColor;
+    }
 }
 
 .loadingComment {

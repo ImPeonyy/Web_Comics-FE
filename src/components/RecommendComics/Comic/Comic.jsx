@@ -64,13 +64,22 @@ const Comic = ({ comic }) => {
                 <div className={style.comicInfo}>
                     <h1>{comic.title}</h1>
                     <div className={style.genresList}>
-                        <GenreTag type='status' title={comic.status} />
+                        <GenreTag
+                            type='status'
+                            title={comic.status}
+                            onClick={() => {
+                                setIsComicDetailOpen(false);
+                            }}
+                        />
                         {comic.genres.map((genre) => (
                             <GenreTag
                                 key={genre.id}
                                 type='genre'
                                 title={genre.name}
                                 genre={genre}
+                                onClick={() => {
+                                    setIsComicDetailOpen(false);
+                                }}
                             />
                         ))}
                     </div>

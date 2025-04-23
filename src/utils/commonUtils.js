@@ -1,12 +1,5 @@
 import { getChaptersHistory } from '@services/FavHisService';
 
-const calcView = (statistics) => {
-    const view = statistics.reduce((acc, curr) => {
-        return acc + curr.view_count;
-    }, 0);
-    return view;
-};
-
 let chaptersHistory = [];
 
 getChaptersHistory()
@@ -24,4 +17,4 @@ const chapterStatus = (chapter) => {
     return chapterHistory ? true : false;
 };
 
-export { calcView, chapterStatus };
+export { chapterStatus };

@@ -1,6 +1,6 @@
 import { ComicDetailContext } from '@contexts/ComicDetailProvider';
 import { EyeOutlined } from '@ant-design/icons';
-import { chapterStatus } from '@utils/commonUtils';
+import { StoreContext } from '@contexts/StoreProvider';
 import dayjs from 'dayjs';
 import { slugify } from '@utils/slugifyUtils';
 import style from './style.module.scss';
@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 const Comic = ({ comic, historyChapter, views }) => {
     const { setComicDetail, setIsComicDetailOpen } =
         useContext(ComicDetailContext);
+    const { chapterStatus } = useContext(StoreContext);
 
     const navigate = useNavigate();
     const chapter = historyChapter ? historyChapter : comic.chapters[0];

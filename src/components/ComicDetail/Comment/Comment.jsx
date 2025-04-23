@@ -9,13 +9,28 @@ const Comment = ({ comment }) => {
 
     return (
         <div className={style.commentItem}>
+            <style>
+                {`
+                    @keyframes progress-animation {
+                        100% {
+                            background-position: 0% 50%;
+                        }
+                        0% {
+                            background-position: 100% 50%;
+                        }
+                    }
+                `}
+            </style>
             <div className={style.commentAvatar}>
                 <img src={comment.user.avatar} alt={comment.user.username} />
                 <span
                     className={style.commentLevel}
                     style={{
                         background: level.style,
+                        backgroundSize: '300% 100%',
                         WebkitBackgroundClip: 'text',
+                        animation: 'progress-animation 2s linear infinite',
+                        backgroundClip: 'text',
                         WebkitTextFillColor: 'transparent'
                     }}
                 >

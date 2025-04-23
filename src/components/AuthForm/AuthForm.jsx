@@ -45,9 +45,10 @@ const AuthForm = () => {
             signIn({ email, password })
                 .then((res) => {
                     window.location.reload();
-                    const { token, id } = res.data;
+                    const { token, id, role } = res.data;
                     Cookies.set('token', token);
                     Cookies.set('userID', id);
+                    Cookies.set('role', role);
                     setIsAuthFormOpen(false);
                 })
                 .catch((err) => {

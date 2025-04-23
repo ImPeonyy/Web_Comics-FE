@@ -11,7 +11,7 @@ import {
     SendOutlined
 } from '@ant-design/icons';
 import { addFav, removeFav } from '@services/FavHisService';
-import { useContext, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 
 import Chapter from '@components/ComicDetail/Chapter/Chapter';
 import { ComicDetailContext } from '@contexts/ComicDetailProvider';
@@ -26,12 +26,15 @@ import { slugify } from '@utils/slugifyUtils';
 import style from './style.module.scss';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { useVirtualizer } from '@tanstack/react-virtual';
 
 dayjs.extend(relativeTime);
 dayjs.locale('vi');
 
 const ComicDetail = () => {
     const navigate = useNavigate();
+    const commentListRef = useRef(null);
+    const chapterListRef = useRef(null);
 
     const {
         isComicDetailOpen,
@@ -48,8 +51,21 @@ const ComicDetail = () => {
     } = useContext(ComicDetailContext);
 
     const [postCmtLoading, setPostCmtLoading] = useState(false);
-
     const [isFavLoading, setIsFavLoading] = useState(false);
+
+    const commentVirtualizer = useVirtualizer({
+        count: commentList.length,
+        getScrollElement: () => commentListRef.current,
+        estimateSize: () => 100,
+        overscan: 5
+    });
+
+    const chapterVirtualizer = useVirtualizer({
+        count: chapterList.length,
+        getScrollElement: () => chapterListRef.current,
+        estimateSize: () => 50,
+        overscan: 5
+    });
 
     const handleOverlayClick = () => {
         setIsComicDetailOpen(false);
@@ -251,7 +267,10 @@ const ComicDetail = () => {
                                                 'Theo Dõi Peonyy~ Comics để xem thêm nhiều truyện mới nha!'}
                                         </span>
                                     </div>
-                                    <div className={style.chapterList}>
+                                    <div
+                                        className={style.chapterList}
+                                        ref={chapterListRef}
+                                    >
                                         {isChaptersLoading ? (
                                             <div
                                                 className={style.loadingChapter}
@@ -259,17 +278,47 @@ const ComicDetail = () => {
                                                 <LoadingComponent />
                                             </div>
                                         ) : (
-                                            chapterList.map((chapter) => (
-                                                <Chapter
-                                                    key={chapter.id}
-                                                    chapter={chapter}
-                                                    onClick={() => {
-                                                        handleChapterClick(
-                                                            chapter
-                                                        );
-                                                    }}
-                                                />
-                                            ))
+                                            <div
+                                                style={{
+                                                    height: `${chapterVirtualizer.getTotalSize()}px`,
+                                                    width: '100%',
+                                                    position: 'relative'
+                                                }}
+                                            >
+                                                {chapterVirtualizer
+                                                    .getVirtualItems()
+                                                    .map((virtualRow) => (
+                                                        <div
+                                                            key={virtualRow.key}
+                                                            style={{
+                                                                position:
+                                                                    'absolute',
+                                                                top: 0,
+                                                                left: 0,
+                                                                width: '100%',
+                                                                height: `${virtualRow.size}px`,
+                                                                transform: `translateY(${virtualRow.start}px)`
+                                                            }}
+                                                        >
+                                                            <Chapter
+                                                                chapter={
+                                                                    chapterList[
+                                                                        virtualRow
+                                                                            .index
+                                                                    ]
+                                                                }
+                                                                onClick={() => {
+                                                                    handleChapterClick(
+                                                                        chapterList[
+                                                                            virtualRow
+                                                                                .index
+                                                                        ]
+                                                                    );
+                                                                }}
+                                                            />
+                                                        </div>
+                                                    ))}
+                                            </div>
                                         )}
                                     </div>
                                 </div>
@@ -298,7 +347,10 @@ const ComicDetail = () => {
                                             disabled={postCmtLoading}
                                         />
                                     </div>
-                                    <div className={style.commentList}>
+                                    <div
+                                        className={style.commentList}
+                                        ref={commentListRef}
+                                    >
                                         {isCommentsLoading ? (
                                             <div
                                                 className={style.loadingComment}
@@ -306,12 +358,39 @@ const ComicDetail = () => {
                                                 <LoadingComponent />
                                             </div>
                                         ) : (
-                                            commentList.map((comment) => (
-                                                <Comment
-                                                    key={comment.id}
-                                                    comment={comment}
-                                                />
-                                            ))
+                                            <div
+                                                style={{
+                                                    height: `${commentVirtualizer.getTotalSize()}px`,
+                                                    width: '100%',
+                                                    position: 'relative'
+                                                }}
+                                            >
+                                                {commentVirtualizer
+                                                    .getVirtualItems()
+                                                    .map((virtualRow) => (
+                                                        <div
+                                                            key={virtualRow.key}
+                                                            style={{
+                                                                position:
+                                                                    'absolute',
+                                                                top: 0,
+                                                                left: 0,
+                                                                width: '100%',
+                                                                height: `${virtualRow.size}px`,
+                                                                transform: `translateY(${virtualRow.start}px)`
+                                                            }}
+                                                        >
+                                                            <Comment
+                                                                comment={
+                                                                    commentList[
+                                                                        virtualRow
+                                                                            .index
+                                                                    ]
+                                                                }
+                                                            />
+                                                        </div>
+                                                    ))}
+                                            </div>
                                         )}
                                     </div>
                                 </div>

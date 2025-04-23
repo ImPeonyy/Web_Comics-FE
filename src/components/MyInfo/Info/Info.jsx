@@ -60,33 +60,6 @@ const Info = () => {
         }
     });
 
-    // const avatar = useFormik({
-    //     initialValues: {
-    //         avatar: null
-    //     },
-    //     validationSchema: Yup.object({
-    //         avatar: Yup.test(
-    //             'fileType',
-    //             'Chỉ chấp nhận ảnh JPEG, PNG, JPG hoặc GIF',
-    //             (value) =>
-    //                 value &&
-    //                 [
-    //                     'image/jpeg',
-    //                     'image/png',
-    //                     'image/jpg',
-    //                     'image/gif'
-    //                 ].includes(value.type)
-    //         ).test(
-    //             'fileSize',
-    //             'Kích thước ảnh tối đa 2MB',
-    //             (value) => value && value.size <= 2048 * 1024
-    //         )
-    //     }),
-    //     handleChange: (values) => {
-    //         const { avatar } = values;
-    //     }
-    // });
-
     const handleEditableInfo = (e) => {
         e.stopPropagation();
         setIsEditingInfo(!isEditingInfo);
@@ -129,7 +102,7 @@ const Info = () => {
 
     return (
         <div className={style.infoContainer}>
-            <div style={{ display: 'flex', gap: '20px', flexDirection: 'row' }}>
+            <div className={style.mainInfo}>
                 <div className={style.avatarContainer}>
                     <div className={style.avatar}>
                         {isUploadingAvatar ? (
@@ -224,7 +197,10 @@ const Info = () => {
                     <div className={style.experienceBar}>
                         <span
                             className={style.experienceValue}
-                            style={{ width: `${expPercentage}%` }}
+                            style={{
+                                width: `${expPercentage}%`,
+                                color: expPercentage < 5 ? '#000' : '#fff'
+                            }}
                         >
                             {expPercentage}%
                         </span>
