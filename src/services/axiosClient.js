@@ -2,16 +2,10 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 
 const axiosClient = axios.create({
-    baseURL: 'http://localhost:8000/api',
+    baseURL: 'https://webcomics-be-production.up.railway.app/api',
     timeout: 20000,
     headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'https://webcomics-be.fwh.is',
-        'Access-Control-Allow-Methods':
-            'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Expose-Headers': 'Content-Range, X-Content-Range'
+        'Content-Type': 'application/json'
     }
 });
 
