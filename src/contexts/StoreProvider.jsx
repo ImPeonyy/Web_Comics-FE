@@ -13,12 +13,14 @@ const dataMenu = [
     { id: 28, title: 'Ngôn tình' }
 ];
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const StoreContext = createContext();
 
 export const StoreProvider = ({ children }) => {
     const [myInfo, setMyInfo] = useState(null);
     const [genres, setGenres] = useState([]);
     const [chaptersHistory, setChaptersHistory] = useState([]);
+    const isAuthenticated = Cookies.get('token') !== undefined;
 
     const fetchChaptersHistory = () => {
         getChaptersHistory()
@@ -31,8 +33,10 @@ export const StoreProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        fetchChaptersHistory();
-    }, []);
+        if (isAuthenticated) {
+            fetchChaptersHistory();
+        }
+    }, [isAuthenticated]);
 
     const chapterStatus = (chapter) => {
         const chapterHistory = chaptersHistory.find(
