@@ -71,7 +71,7 @@ const Footer = () => {
                     <div className={style.contactInfoContainer}>
                         <span className={style.contactInfoItem}>
                             <span className={style.contactInfoTitle}>
-                                Mail:{' '}
+                                Email:
                             </span>
                             <span className={style.contactInfoContent}>
                                 peony5903@gmail.com

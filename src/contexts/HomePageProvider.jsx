@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from 'react';
 import { getHomePageFav, getHomePageHistory } from '@services/FavHisService';
 import {
+    getRecommendComics,
     getTopComicsByDay,
     getTopComicsByMonth,
     getTopComicsByWeek
@@ -47,7 +48,7 @@ export const HomePageProvider = ({ children }) => {
     const isAuthenticated = !!Cookies.get('token');
 
     useEffect(() => {
-        getTopComicsByMonth()
+        getRecommendComics()
             .then((res) => {
                 const data = res.data.data;
                 setRecommendComics(data);

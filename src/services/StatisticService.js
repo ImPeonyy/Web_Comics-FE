@@ -1,5 +1,9 @@
 import axiosClient from './axiosClient';
 
+const getRecommendComics = async () => {
+    return await axiosClient.get('/statistics/recommend');
+};
+
 const getTopComicsByMonth = async () => {
     return await axiosClient.get('/statistics/top/month');
 };
@@ -17,6 +21,7 @@ const increaseView = async (comicId) => {
 };
 
 export {
+    getRecommendComics,
     getTopComicsByMonth,
     getTopComicsByWeek,
     getTopComicsByDay,
