@@ -63,7 +63,7 @@ const ComicDetail = () => {
     const chapterVirtualizer = useVirtualizer({
         count: chapterList.length,
         getScrollElement: () => chapterListRef.current,
-        estimateSize: () => 50,
+        estimateSize: () => 60,
         overscan: 5
     });
 

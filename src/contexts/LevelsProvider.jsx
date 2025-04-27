@@ -7,7 +7,7 @@ import { getExp } from '@services/UserService';
 export const LevelsContext = createContext();
 
 export const LevelsProvider = ({ children }) => {
-    const { myInfo } = useContext(StoreContext);
+    const { isAuthenticated } = useContext(StoreContext);
     const [exp, setExp] = useState(0);
 
     const fetchExp = () => {
@@ -19,10 +19,10 @@ export const LevelsProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        if (myInfo) {
+        if (isAuthenticated) {
             fetchExp();
         }
-    }, [myInfo]);
+    }, [isAuthenticated]);
 
     const currentLevel = calcCurrentLevel(exp);
     const nextLevel = calcNextLevel(exp);

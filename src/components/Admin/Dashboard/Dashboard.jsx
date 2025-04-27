@@ -349,9 +349,9 @@ const Dashboard = () => {
                     src={record.cover_image}
                     alt={record.title}
                     style={{
-                        width: '80px',
+                        width: '100px',
                         height: '120px',
-                        objectFit: 'cover',
+                        objectFit: 'contain',
                         borderRadius: '4px'
                     }}
                 />

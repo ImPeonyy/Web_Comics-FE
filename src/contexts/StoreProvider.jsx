@@ -20,7 +20,7 @@ export const StoreProvider = ({ children }) => {
     const [myInfo, setMyInfo] = useState(null);
     const [genres, setGenres] = useState([]);
     const [chaptersHistory, setChaptersHistory] = useState([]);
-    const isAuthenticated = Cookies.get('token') !== undefined;
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     const fetchChaptersHistory = () => {
         getChaptersHistory()
@@ -75,12 +75,15 @@ export const StoreProvider = ({ children }) => {
         <StoreContext.Provider
             value={{
                 myInfo,
+                setMyInfo,
                 genres,
                 fetchMyInfo,
                 dataMenu,
                 chaptersHistory,
                 fetchChaptersHistory,
-                chapterStatus
+                chapterStatus,
+                isAuthenticated,
+                setIsAuthenticated
             }}
         >
             {children}

@@ -31,6 +31,7 @@ const Header = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isShowUserSubMenu, setIsShowUserSubMenu] = useState(false);
     const [isShowGenresSubMenu, setIsShowGenresSubMenu] = useState(false);
+    const [isSignOutLoading, setIsSignOutLoading] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -40,7 +41,14 @@ const Header = () => {
     const location = useLocation();
 
     const { setIsAuthFormOpen } = useContext(AuthFormContext);
-    const { myInfo, setMyInfo, genres, dataMenu } = useContext(StoreContext);
+    const {
+        myInfo,
+        setMyInfo,
+        genres,
+        dataMenu,
+        isAuthenticated,
+        setIsAuthenticated
+    } = useContext(StoreContext);
     const { handleRandomComic, isRandomComicLoading } =
         useContext(ComicDetailContext);
     const { toast } = useContext(ToastContext);
@@ -63,7 +71,7 @@ const Header = () => {
     };
 
     const handleOpenAuthForm = () => {
-        if (!myInfo) {
+        if (!isAuthenticated) {
             setIsAuthFormOpen(true);
         }
     };
@@ -86,20 +94,26 @@ const Header = () => {
 
     const handleSignOut = (e) => {
         e.stopPropagation();
+        setIsSignOutLoading(true);
         signOut()
             .then(() => {
                 navigate('/');
                 window.location.reload();
                 Cookies.remove('token');
                 Cookies.remove('userID');
+                Cookies.remove('role');
+                setIsAuthenticated(false);
+                setMyInfo(null);
             })
             .catch((err) => {
                 toast.error(err.response.data.message);
                 setTimeout(() => {
                     window.location.reload();
                 }, 3000);
+            })
+            .finally(() => {
+                setIsSignOutLoading(false);
             });
-        setMyInfo(null);
     };
 
     const handleMyInfo = (e) => {
@@ -364,7 +378,11 @@ const Header = () => {
                                     <p>Yêu thích</p>
                                 </span>
                                 <span onClick={handleSignOut}>
-                                    <LogoutOutlined />
+                                    {isSignOutLoading ? (
+                                        <LoadingOutlined />
+                                    ) : (
+                                        <LogoutOutlined />
+                                    )}
                                     <p>Đăng xuất</p>
                                 </span>
                             </span>

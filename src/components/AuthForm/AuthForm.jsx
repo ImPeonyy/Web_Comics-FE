@@ -7,6 +7,7 @@ import { AuthFormContext } from '@contexts/AuthFormProvider';
 import Cookies from 'js-cookie';
 import FormButton from '@components/AuthForm/FormButton/FormButton';
 import FormInput from '@components/AuthForm/FormInput/FormInput';
+import { StoreContext } from '@contexts/StoreProvider';
 import { ToastContext } from '@contexts/ToastProvider';
 import style from './style.module.scss';
 import { useFormik } from 'formik';
@@ -14,6 +15,7 @@ import { useFormik } from 'formik';
 const AuthForm = () => {
     const { toast } = useContext(ToastContext);
     const { isAuthFormOpen, setIsAuthFormOpen } = useContext(AuthFormContext);
+    const { setIsAuthenticated, fetchMyInfo } = useContext(StoreContext);
     const [isSignInLoading, setIsSignInLoading] = useState(false);
     const [isSignUpLoading, setIsSignUpLoading] = useState(false);
 
@@ -44,12 +46,14 @@ const AuthForm = () => {
             setIsSignInLoading(true);
             signIn({ email, password })
                 .then((res) => {
-                    window.location.reload();
                     const { token, id, role } = res.data;
                     Cookies.set('token', token);
                     Cookies.set('userID', id);
                     Cookies.set('role', role);
                     setIsAuthFormOpen(false);
+                    setIsAuthenticated(true);
+                    fetchMyInfo();
+                    window.location.reload();
                 })
                 .catch((err) => {
                     toast.error('Sai tài khoản hoặc mật khẩu!');

@@ -1,11 +1,11 @@
 import { CloseOutlined, LoadingOutlined } from '@ant-design/icons';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 import { ComicDetailContext } from '@contexts/ComicDetailProvider';
 import { StoreContext } from '@contexts/StoreProvider';
 import dayjs from 'dayjs';
 import { slugify } from '@utils/slugifyUtils';
 import style from './style.module.scss';
-import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Comic = ({
@@ -19,8 +19,25 @@ const Comic = ({
     const { setComicDetail, setIsComicDetailOpen } =
         useContext(ComicDetailContext);
     const { chapterStatus } = useContext(StoreContext);
+    const [isSmallWidth, setIsSmallWidth] = useState(false);
+    const comicRef = useRef(null);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const checkWidth = () => {
+            if (comicRef.current) {
+                setIsSmallWidth(comicRef.current.offsetWidth < 185);
+            }
+        };
+
+        checkWidth();
+        window.addEventListener('resize', checkWidth);
+
+        return () => {
+            window.removeEventListener('resize', checkWidth);
+        };
+    }, []);
 
     const handleClick = (comic) => {
         setComicDetail(comic);
@@ -38,7 +55,11 @@ const Comic = ({
     };
 
     return (
-        <div className={style.comic} onClick={() => handleClick(comic)}>
+        <div
+            className={style.comic}
+            onClick={() => handleClick(comic)}
+            ref={comicRef}
+        >
             {onDelete && (
                 <div
                     className={style.deleteButton}
@@ -54,7 +75,14 @@ const Comic = ({
                 <img src={comic.cover_image} alt='' />
             </a>
             <div className={style.comicInfo}>
-                <h3 style={titleStyle}>{comic.title}</h3>
+                <h3
+                    style={{
+                        ...titleStyle,
+                        marginTop: isSmallWidth ? '0px' : '10px'
+                    }}
+                >
+                    {comic.title}
+                </h3>
                 <div className={style.comicChapters}>
                     {historyChapter ? (
                         <div
@@ -62,7 +90,8 @@ const Comic = ({
                             style={{
                                 ...chapterStyle,
                                 color: '#ffffff',
-                                marginBottom: '20px'
+                                marginBottom: '20px',
+                                fontSize: isSmallWidth ? '9px' : '11px'
                             }}
                         >
                             <a
@@ -85,7 +114,8 @@ const Comic = ({
                                     color: chapterStatus(chapter)
                                         ? '#9d9d9d'
                                         : '#ffffff',
-                                    opacity: chapterStatus(chapter) ? 0.5 : 1
+                                    opacity: chapterStatus(chapter) ? 0.5 : 1,
+                                    fontSize: isSmallWidth ? '9px' : '11px'
                                 }}
                                 key={index}
                             >
