@@ -17,12 +17,17 @@
     flex-direction: column;
     gap: 15px;
     padding: 0px 10px;
+    width: 100%;
     font-size: small;
 }
 
 .comicTitle {
     cursor: pointer;
+    max-width: 90%;
+    overflow: hidden;
     color: $mainTextColor;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
     &:hover {
         color: $primaryColor;

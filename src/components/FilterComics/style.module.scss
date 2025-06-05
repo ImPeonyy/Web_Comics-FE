@@ -231,6 +231,7 @@
 @media (max-width: 480px) {
     .actionItem {
         transform: scale(0.95);
+        z-index: 1000;
         width: calc((100% - 2%) / 3);
     }
     .actionItem:last-child {
