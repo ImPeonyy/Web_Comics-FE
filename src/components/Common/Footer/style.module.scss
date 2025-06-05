@@ -25,12 +25,14 @@
 
 .webLogo img {
     min-width: 200px;
-    min-height: 100px;
+    height: 110px;
+    min-height: 110px;
     object-fit: none;
 }
 
 .webDes {
     font-size: small;
+    text-align: justify;
 }
 
 .webDes a {
