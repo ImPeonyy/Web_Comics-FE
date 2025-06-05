@@ -15,7 +15,7 @@ import { useFormik } from 'formik';
 const AuthForm = () => {
     const { toast } = useContext(ToastContext);
     const { isAuthFormOpen, setIsAuthFormOpen } = useContext(AuthFormContext);
-    const { setIsAuthenticated, fetchMyInfo } = useContext(StoreContext);
+    const { fetchMyInfo } = useContext(StoreContext);
     const [isSignInLoading, setIsSignInLoading] = useState(false);
     const [isSignUpLoading, setIsSignUpLoading] = useState(false);
 
@@ -51,7 +51,6 @@ const AuthForm = () => {
                     Cookies.set('userID', id);
                     Cookies.set('role', role);
                     setIsAuthFormOpen(false);
-                    setIsAuthenticated(true);
                     fetchMyInfo();
                     window.location.reload();
                 })

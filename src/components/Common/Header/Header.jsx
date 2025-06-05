@@ -41,14 +41,7 @@ const Header = () => {
     const location = useLocation();
 
     const { setIsAuthFormOpen } = useContext(AuthFormContext);
-    const {
-        myInfo,
-        setMyInfo,
-        genres,
-        dataMenu,
-        isAuthenticated,
-        setIsAuthenticated
-    } = useContext(StoreContext);
+    const { myInfo, setMyInfo, genres, dataMenu } = useContext(StoreContext);
     const { handleRandomComic, isRandomComicLoading } =
         useContext(ComicDetailContext);
     const { toast } = useContext(ToastContext);
@@ -71,7 +64,7 @@ const Header = () => {
     };
 
     const handleOpenAuthForm = () => {
-        if (!isAuthenticated) {
+        if (!myInfo) {
             setIsAuthFormOpen(true);
         }
     };
@@ -102,7 +95,6 @@ const Header = () => {
                 Cookies.remove('token');
                 Cookies.remove('userID');
                 Cookies.remove('role');
-                setIsAuthenticated(false);
                 setMyInfo(null);
             })
             .catch((err) => {

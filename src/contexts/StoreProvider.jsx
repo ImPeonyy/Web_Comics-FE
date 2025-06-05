@@ -20,7 +20,6 @@ export const StoreProvider = ({ children }) => {
     const [myInfo, setMyInfo] = useState(null);
     const [genres, setGenres] = useState([]);
     const [chaptersHistory, setChaptersHistory] = useState([]);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     const fetchChaptersHistory = () => {
         getChaptersHistory()
@@ -33,10 +32,10 @@ export const StoreProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        if (isAuthenticated) {
+        if (myInfo) {
             fetchChaptersHistory();
         }
-    }, [isAuthenticated]);
+    }, [myInfo]);
 
     const chapterStatus = (chapter) => {
         const chapterHistory = chaptersHistory.find(
@@ -82,8 +81,6 @@ export const StoreProvider = ({ children }) => {
                 chaptersHistory,
                 fetchChaptersHistory,
                 chapterStatus,
-                isAuthenticated,
-                setIsAuthenticated
             }}
         >
             {children}
